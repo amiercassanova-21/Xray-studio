@@ -260,16 +260,16 @@
                         <span id="outputModeBadge" class="text-[9px] px-2 py-0.5 rounded font-extrabold bg-amber-500/20 text-amber-400 border border-amber-500/30">LoadBalance</span>
                     </div>
                     <div class="flex items-center gap-1.5 flex-wrap w-full sm:w-auto justify-end">
-                        <button onclick="copyOutput()" class="btn-3d-slate px-2 py-1 text-[11px] font-medium text-slate-200 rounded-xl transition flex items-center gap-1 flex-1 sm:flex-initial justify-center">
+                        <button onclick="copyOutput()" class="btn-3d-slate px-2.5 py-1 text-[11px] font-medium text-slate-200 rounded-xl transition flex items-center gap-1 flex-1 sm:flex-initial justify-center">
                             <i class="fa-regular fa-copy text-amber-400"></i> <span id="copyText">Salin</span>
                         </button>
-                        <button onclick="openQrModal()" class="btn-3d-slate px-2 py-1 text-[11px] font-medium text-slate-200 rounded-xl transition flex items-center gap-1 flex-1 sm:flex-initial justify-center" title="Tampilkan QR Code / Sub Link">
+                        <button onclick="openQrModal()" class="btn-3d-slate px-2.5 py-1 text-[11px] font-medium text-slate-200 rounded-xl transition flex items-center gap-1 flex-1 sm:flex-initial justify-center" title="Tampilkan QR Code / Sub Link">
                             <i class="fa-solid fa-qrcode text-amber-400"></i> QR / Sub
                         </button>
-                        <button onclick="copyBase64Output()" class="btn-3d-slate px-2 py-1 text-[11px] font-medium text-slate-200 rounded-xl transition flex items-center gap-1 flex-1 sm:flex-initial justify-center" title="Salin format Base64 Subscription">
+                        <button onclick="copyBase64Output()" class="btn-3d-slate px-2.5 py-1 text-[11px] font-medium text-slate-200 rounded-xl transition flex items-center gap-1 flex-1 sm:flex-initial justify-center" title="Salin format Base64 Subscription">
                             <i class="fa-solid fa-file-arrow-up text-amber-400"></i> Base64
                         </button>
-                        <button onclick="downloadJson()" class="btn-3d-gold px-2 py-1 text-[11px] font-bold text-white rounded-xl transition flex items-center gap-1 flex-1 sm:flex-initial justify-center">
+                        <button onclick="downloadJson()" class="btn-3d-gold px-2.5 py-1 text-[11px] font-bold text-white rounded-xl transition flex items-center gap-1 flex-1 sm:flex-initial justify-center">
                             <i class="fa-solid fa-download"></i> Download
                         </button>
                     </div>
@@ -302,22 +302,30 @@
         </div>
     </section>
 
-    <!-- QR Code / Subscription Link Modal -->
+    <!-- QR Code / Subscription Link Modal (Fixed Overflow & Clean Layout) -->
     <div id="qrModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center z-50 hidden p-4">
-        <div class="card-3d rounded-2xl p-5 max-w-md w-full flex flex-col gap-4 border border-amber-500/40 shadow-2xl">
+        <div class="card-3d rounded-2xl p-5 max-w-sm w-full flex flex-col gap-3 border border-amber-500/40 shadow-2xl">
             <div class="flex items-center justify-between border-b border-amber-500/20 pb-2">
                 <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-2">
-                    <i class="fa-solid fa-qrcode"></i> Subscription & Link Export
+                    <i class="fa-solid fa-qrcode"></i> QR & Subscription Export
                 </h3>
                 <button onclick="closeQrModal()" class="text-slate-400 hover:text-amber-400"><i class="fa-solid fa-xmark text-sm"></i></button>
             </div>
-            <div class="flex flex-col items-center gap-3">
-                <div id="qrContainer" class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex items-center justify-center text-center">
-                    <div class="text-xs text-amber-300 font-mono p-4" id="qrTextDisplay">Format Base64 Siap Disalin</div>
+            <div class="flex flex-col items-center gap-2">
+                <!-- QR Code Display Box -->
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center justify-center text-center">
+                    <div id="qrImageContainer" class="w-36 h-36 bg-slate-900 rounded-lg flex items-center justify-center overflow-hidden border border-amber-500/30">
+                        <img id="qrImg" src="" alt="QR Code" class="w-full h-full object-contain" onerror="this.style.display='none'; document.getElementById('qrFallbackText').style.display='block';">
+                        <div id="qrFallbackText" class="text-[10px] text-amber-300 font-mono p-2 hidden">Gunakan Tautan Base64</div>
+                    </div>
                 </div>
-                <p class="text-[11px] text-slate-400 text-center">Gunakan tautan Base64 ini sebagai langganan pada aplikasi klien v2rayNG / Clash Anda.</p>
+                <!-- Scrollable / Wrapped Base64 Container (No Overflow) -->
+                <div class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 max-h-24 overflow-y-auto">
+                    <p id="qrTextDisplay" class="text-[10px] text-emerald-300 code-font break-all select-all leading-relaxed"></p>
+                </div>
+                <p class="text-[10px] text-slate-400 text-center">Salin tautan Base64 atau pindai QR Code di atas pada aplikasi klien v2rayNG / Clash Anda.</p>
             </div>
-            <div class="flex gap-2 pt-2">
+            <div class="flex gap-2 pt-1">
                 <button onclick="copyBase64OutputFromModal()" class="btn-3d-gold w-full text-white font-bold py-2 px-3 rounded-xl text-xs flex items-center justify-center gap-2">
                     <i class="fa-solid fa-copy"></i> Salin Base64 Langganan
                 </button>
@@ -343,7 +351,7 @@
 `vless://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:443?security=tls&type=ws&path=%2Fvless&sni=sg1.proxy-node.net#TLS-VLESS-01
 vless://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&type=ws&path=%2Fvless&host=ntls1.proxy-node.net#NTLS-VLESS-01
 vmess://eyJhZGQiOiIxOTguNTEuMTAwLjEwIiwicG9ydCI6NDQzLCJpZCI6ImExYjJjM2Q0LWU1ZjYtN2E4Yi05YzBkLTEyMzQ1Njc4OWFiYyIsIm5ldCI6IndzIiwidGxzIjoidGxzIiwicGF0aCI6Ii92bWVzcyIsImhvc3QiOiJzZzIucHJveHktbm9kZS5uZXQiLCJwcyI6IlRMUy1WTWVzcy0wMSJ9
-vmess://eyJhZGQiOiIxOTguNTEuMTAwLjEwIiwicG9ydCI6ODAsImlkIjoiYTFiMmMzZDQtZTVmNi03YThiLTljMGQtMTIzNDU2Nzg5YWJjIiwibmV0Ijoid3MiLCJ0bHMiOiJub25lIiwicGF0aCI6Ii92bWVzcyIsImhvc3QiOiJudGxzMi5wcm94eS1ub2RlLm5ldCIsInBz":"TlTLSVZNZXNzLTAxIn0=
+vmess://eyJhZGQiOiIxOTguNTEuMTAwLjEwIiwicG9ydCI6ODAsImlkIjoiYTFiMmMzZDQtZTVmNi03YThiLTljMGQtMTIzNDU2Nzg5YWJjIiwibmV0Ijoid3MiLCJ0bHMiOiJub25lIiwicGF0aCI6Ii92bWVzcyIsImhvc3QiOiJudGxzMi5wcm94eS1ub2RlLm5ldCIsInBzIjoiTlTLSVZNZXNzLTAxIn0=
 trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:443?security=tls&type=ws&path=%2Ftrojan&sni=sg3.proxy-node.net#TLS-Trojan-01
 trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&type=ws&path=%2Ftrojan&host=ntls3.proxy-node.net#NTLS-Trojan-01`;
 
@@ -530,7 +538,10 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
                 return;
             }
             const b64 = btoa(unescape(encodeURIComponent(content)));
-            document.getElementById('qrTextDisplay').textContent = b64.substring(0, 100) + "... (Base64 Subscription)";
+            document.getElementById('qrTextDisplay').textContent = b64;
+            // Generate QR code using external API
+            const qrImg = document.getElementById('qrImg');
+            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(b64)}`;
             document.getElementById('qrModal').classList.remove('hidden');
         }
 
