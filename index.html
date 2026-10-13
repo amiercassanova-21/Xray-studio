@@ -25,6 +25,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts Inter & JetBrains Mono -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- QRCode.js for client-side local QR generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #0b0f19; }
         .code-font { font-family: 'JetBrains Mono', monospace; }
@@ -93,8 +95,8 @@
     <header class="border-b border-amber-500/25 bg-darker/95 backdrop-blur sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col items-center justify-center gap-2.5">
             <div class="flex flex-row items-center justify-center gap-3">
-                <div class="bg-gradient-to-tr from-amber-500 via-yellow-600 to-amber-700 p-2 rounded-xl shadow-xl shadow-amber-500/30 text-slate-950 border border-amber-400/60 flex items-center justify-center w-10 h-10 flex-shrink-0">
-                    <i class="fa-solid fa-server text-slate-950 text-base"></i>
+                <div class="bg-gradient-to-tr from-amber-500 via-yellow-600 to-amber-700 p-2.5 rounded-xl shadow-xl shadow-amber-500/30 text-slate-950 border border-amber-400/60 flex items-center justify-center w-11 h-11 flex-shrink-0">
+                    <i class="fa-solid fa-server text-slate-950 text-lg"></i>
                 </div>
                 <h1 class="text-xl sm:text-2xl font-black tracking-widest gold-badge uppercase">
                     Cassanova Studio
@@ -190,7 +192,6 @@
                 </div>
             </div>
 
-            <!-- Input Panels Card (Compact) -->
             <div class="card-3d rounded-2xl p-3 flex flex-col gap-2 flex-grow">
                 
                 <!-- Links Panel -->
@@ -200,7 +201,7 @@
                             <i class="fa-solid fa-list-check text-amber-400"></i> Akun Proxy (VLESS, VMess, Trojan)
                         </label>
                         <div class="flex gap-2 text-[11px]">
-                            <button onclick="loadSampleMultiProtocol()" class="text-amber-400 hover:underline font-medium">Sample</button>
+                            <button onclick="pasteFromClipboard()" class="text-amber-400 hover:underline font-medium flex items-center gap-1"><i class="fa-solid fa-paste"></i> Tempel</button>
                             <span class="text-slate-600">|</span>
                             <button onclick="clearLinksInput()" class="text-slate-400 hover:text-red-400 transition">Bersihkan</button>
                         </div>
@@ -234,7 +235,7 @@
                         </label>
                         <div class="flex gap-2 text-[11px]">
                             <span id="jsonValidatorBadge" class="text-[10px] text-emerald-400 font-mono">Valid JSON</span>
-                            <button onclick="loadSampleJson()" class="text-amber-400 hover:underline font-medium">Sample</button>
+                            <button onclick="pasteJsonClipboard()" class="text-amber-400 hover:underline font-medium flex items-center gap-1"><i class="fa-solid fa-paste"></i> Tempel</button>
                             <span class="text-slate-600">|</span>
                             <button onclick="clearJsonInput()" class="text-slate-400 hover:text-red-400 transition">Bersihkan</button>
                         </div>
@@ -250,7 +251,6 @@
 
         </div>
 
-        <!-- Right Panel: Output & Actions (Compact) -->
         <div class="lg:col-span-7 flex flex-col gap-3">
             <div class="card-3d rounded-2xl p-3 flex flex-col h-full">
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-2 border-b border-amber-500/20 gap-2">
@@ -302,7 +302,6 @@
         </div>
     </section>
 
-    <!-- QR Code / Subscription Link Modal (Fixed Overflow & Clean Layout) -->
     <div id="qrModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center z-50 hidden p-4">
         <div class="card-3d rounded-2xl p-5 max-w-sm w-full flex flex-col gap-3 border border-amber-500/40 shadow-2xl">
             <div class="flex items-center justify-between border-b border-amber-500/20 pb-2">
@@ -312,18 +311,15 @@
                 <button onclick="closeQrModal()" class="text-slate-400 hover:text-amber-400"><i class="fa-solid fa-xmark text-sm"></i></button>
             </div>
             <div class="flex flex-col items-center gap-2">
-                <!-- QR Code Display Box -->
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center justify-center text-center">
-                    <div id="qrImageContainer" class="w-36 h-36 bg-slate-900 rounded-lg flex items-center justify-center overflow-hidden border border-amber-500/30">
-                        <img id="qrImg" src="" alt="QR Code" class="w-full h-full object-contain" onerror="this.style.display='none'; document.getElementById('qrFallbackText').style.display='block';">
-                        <div id="qrFallbackText" class="text-[10px] text-amber-300 font-mono p-2 hidden">Gunakan Tautan Base64</div>
-                    </div>
+                <!-- Local QR Code Render Box -->
+                <div class="bg-white p-3 rounded-xl border border-slate-800 flex items-center justify-center">
+                    <div id="qrcodeContainer" class="w-36 h-36 flex items-center justify-center overflow-hidden"></div>
                 </div>
-                <!-- Scrollable / Wrapped Base64 Container (No Overflow) -->
+                <!-- Scrollable / Wrapped Base64 Container -->
                 <div class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 max-h-24 overflow-y-auto">
                     <p id="qrTextDisplay" class="text-[10px] text-emerald-300 code-font break-all select-all leading-relaxed"></p>
                 </div>
-                <p class="text-[10px] text-slate-400 text-center">Salin tautan Base64 atau pindai QR Code di atas pada aplikasi klien v2rayNG / Clash Anda.</p>
+                <p class="text-[10px] text-slate-400 text-center">Pindai QR Code di atas atau salin tautan Base64 pada aplikasi v2rayNG.</p>
             </div>
             <div class="flex gap-2 pt-1">
                 <button onclick="copyBase64OutputFromModal()" class="btn-3d-gold w-full text-white font-bold py-2 px-3 rounded-xl text-xs flex items-center justify-center gap-2">
@@ -354,6 +350,36 @@ vmess://eyJhZGQiOiIxOTguNTEuMTAwLjEwIiwicG9ydCI6NDQzLCJpZCI6ImExYjJjM2Q0LWU1ZjYt
 vmess://eyJhZGQiOiIxOTguNTEuMTAwLjEwIiwicG9ydCI6ODAsImlkIjoiYTFiMmMzZDQtZTVmNi03YThiLTljMGQtMTIzNDU2Nzg5YWJjIiwibmV0Ijoid3MiLCJ0bHMiOiJub25lIiwicGF0aCI6Ii92bWVzcyIsImhvc3QiOiJudGxzMi5wcm94eS1ub2RlLm5ldCIsInBzIjoiTlTLSVZNZXNzLTAxIn0=
 trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:443?security=tls&type=ws&path=%2Ftrojan&sni=sg3.proxy-node.net#TLS-Trojan-01
 trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&type=ws&path=%2Ftrojan&host=ntls3.proxy-node.net#NTLS-Trojan-01`;
+
+        async function pasteFromClipboard() {
+            try {
+                const text = await navigator.clipboard.readText();
+                if (text) {
+                    document.getElementById('inputLinks').value = text;
+                    onInputLinksChange();
+                    showToast('Berhasil menempel dari clipboard!');
+                } else {
+                    showToast('Clipboard kosong');
+                }
+            } catch (err) {
+                showToast('Gagal membaca clipboard. Izinkan akses izin browser.');
+            }
+        }
+
+        async function pasteJsonClipboard() {
+            try {
+                const text = await navigator.clipboard.readText();
+                if (text) {
+                    document.getElementById('inputJson').value = text;
+                    validateJsonInput();
+                    showToast('JSON ditempel dari clipboard!');
+                } else {
+                    showToast('Clipboard kosong');
+                }
+            } catch (err) {
+                showToast('Gagal membaca clipboard.');
+            }
+        }
 
         function toggleAdvancedSettings() {
             const content = document.getElementById('advancedContent');
@@ -539,9 +565,25 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
             }
             const b64 = btoa(unescape(encodeURIComponent(content)));
             document.getElementById('qrTextDisplay').textContent = b64;
-            // Generate QR code using external API
-            const qrImg = document.getElementById('qrImg');
-            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(b64)}`;
+            
+            // Clear previous QR code
+            const container = document.getElementById('qrcodeContainer');
+            container.innerHTML = '';
+            
+            // Generate local QR code
+            try {
+                new QRCode(container, {
+                    text: b64,
+                    width: 130,
+                    height: 130,
+                    colorDark: "#0b0f19",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.L
+                });
+            } catch (err) {
+                console.error("QR generation error:", err);
+            }
+
             document.getElementById('qrModal').classList.remove('hidden');
         }
 
@@ -595,13 +637,6 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
             saveSettingsToLocalStorage();
             if (currentActiveTab === 'links') processLinksToXray();
             else processJsonConversion();
-        }
-
-        function loadSampleMultiProtocol() {
-            document.getElementById('inputLinks').value = sampleMultiProtocolText;
-            onInputLinksChange();
-            switchTab('links');
-            showToast('Sample Campuran dimuat!');
         }
 
         function clearLinksInput() {
@@ -989,7 +1024,9 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
         window.onload = function() {
             loadSettingsFromLocalStorage();
             if (!document.getElementById('inputLinks').value) {
-                loadSampleMultiProtocol();
+                document.getElementById('inputLinks').value = sampleMultiProtocolText;
+                onInputLinksChange();
+                processLinksToXray();
             } else {
                 onInputLinksChange();
                 processLinksToXray();
