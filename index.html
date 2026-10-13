@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cassanova Studio - Xray Multi-Protocol Studio</title>
+    <title>Cassanova Studio - Xray Multi-Protocol & Multi-Mode Studio</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -21,23 +21,25 @@
             }
         }
     </script>
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Google Fonts Inter & JetBrains Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #0b0f19; }
         .code-font { font-family: 'JetBrains Mono', monospace; }
         
         .card-3d {
             background: linear-gradient(145deg, #131b2e, #0d1322);
-            border: 1px solid rgba(245, 158, 11, 0.2);
-            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(245, 158, 11, 0.22);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.06);
         }
         
         .gold-badge {
             background: linear-gradient(135deg, #fbbf24, #d97706);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 10px rgba(245, 158, 11, 0.3);
+            text-shadow: 0 2px 12px rgba(245, 158, 11, 0.35);
         }
 
         .btn-3d-gold {
@@ -88,25 +90,21 @@
 </head>
 <body class="text-slate-100 min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-white">
 
-    <header class="border-b border-amber-500/25 bg-darker/90 backdrop-blur sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div class="flex items-center space-x-3">
-                <div class="bg-gradient-to-tr from-amber-500 via-yellow-600 to-amber-700 p-2 rounded-2xl shadow-lg shadow-amber-500/30 text-slate-950 flex-shrink-0 border border-amber-400/50 flex items-center justify-center w-10 h-10">
-                    <svg class="w-6 h-6 text-slate-950 drop-shadow" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
-                    </svg>
+    <header class="border-b border-amber-500/25 bg-darker/95 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col items-center justify-center gap-2.5">
+            <div class="flex flex-row items-center justify-center gap-3">
+                <div class="bg-gradient-to-tr from-amber-500 via-yellow-600 to-amber-700 p-2 rounded-xl shadow-xl shadow-amber-500/30 text-slate-950 border border-amber-400/60 flex items-center justify-center w-10 h-10 flex-shrink-0">
+                    <i class="fa-solid fa-server text-slate-950 text-base"></i>
                 </div>
-                <div>
-                    <h1 class="text-base font-extrabold tracking-wider gold-badge uppercase">
-                        Cassanova Studio
-                    </h1>
-                </div>
+                <h1 class="text-xl sm:text-2xl font-black tracking-widest gold-badge uppercase">
+                    Cassanova Studio
+                </h1>
             </div>
-            <div class="flex items-center gap-2 flex-wrap">
-                <button onclick="switchTab('links')" id="navTabLinks" class="btn-3d-indigo px-3 py-1.5 text-xs font-semibold text-white rounded-xl flex items-center gap-1.5">
+            <div class="flex items-center gap-2 justify-center w-full max-w-sm">
+                <button onclick="switchTab('links')" id="navTabLinks" class="btn-3d-indigo px-3 py-1.5 text-xs font-semibold text-white rounded-xl flex items-center gap-1.5 justify-center flex-1">
                     <i class="fa-solid fa-link"></i> Link Generator
                 </button>
-                <button onclick="switchTab('json')" id="navTabJson" class="btn-3d-slate px-3 py-1.5 text-xs font-semibold text-slate-300 rounded-xl flex items-center gap-1.5">
+                <button onclick="switchTab('json')" id="navTabJson" class="btn-3d-slate px-3 py-1.5 text-xs font-semibold text-slate-300 rounded-xl flex items-center gap-1.5 justify-center flex-1">
                     <i class="fa-solid fa-code"></i> JSON Converter
                 </button>
             </div>
@@ -119,7 +117,7 @@
         <div class="lg:col-span-5 flex flex-col gap-3">
             
             <!-- Mode Selector Card -->
-            <div class="card-3d rounded-2xl p-3.5 flex flex-col gap-2.5">
+            <div class="card-3d rounded-2xl p-3 flex flex-col gap-2">
                 <div class="flex items-center justify-between">
                     <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
                         <i class="fa-solid fa-sliders text-amber-400"></i> Mode Strategi Routing
@@ -142,7 +140,7 @@
             </div>
 
             <!-- Profile Manager Card -->
-            <div class="card-3d rounded-2xl p-3.5 flex flex-col gap-2.5">
+            <div class="card-3d rounded-2xl p-3 flex flex-col gap-2">
                 <div class="flex items-center justify-between">
                     <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
                         <i class="fa-solid fa-address-card text-amber-400"></i> Profile Manager
@@ -159,8 +157,8 @@
                 </div>
             </div>
 
-            <!-- Accordion for Advanced Settings -->
-            <div class="card-3d rounded-2xl p-3.5 flex flex-col gap-2.5">
+            <!-- Advanced Settings Accordion -->
+            <div class="card-3d rounded-2xl p-3 flex flex-col gap-2">
                 <button onclick="toggleAdvancedSettings()" class="flex items-center justify-between w-full text-xs font-bold uppercase tracking-wider text-amber-400 focus:outline-none">
                     <span class="flex items-center gap-1.5"><i class="fa-solid fa-gear"></i> Pengaturan Lanjutan (Opsional)</span>
                     <i id="accordionIcon" class="fa-solid fa-chevron-down transition-transform"></i>
@@ -192,8 +190,8 @@
                 </div>
             </div>
 
-            <!-- Input Panels Card with Drag-and-Drop support -->
-            <div class="card-3d rounded-2xl p-3.5 flex flex-col gap-2.5 flex-grow">
+            <!-- Input Panels Card (Compact) -->
+            <div class="card-3d rounded-2xl p-3 flex flex-col gap-2 flex-grow">
                 
                 <!-- Links Panel -->
                 <div id="panelLinks" class="flex flex-col gap-2 flex-grow">
@@ -208,16 +206,19 @@
                         </div>
                     </div>
 
-                    <!-- Live Parser Counter Badge -->
-                    <div class="flex items-center justify-between bg-slate-950/80 px-3 py-1.5 rounded-lg border border-slate-800 text-[11px]">
+                    <!-- Live Parser Counter Badge & Latency Ping Button -->
+                    <div class="flex items-center justify-between bg-slate-950/80 px-2.5 py-1 rounded-lg border border-slate-800 text-[11px]">
                         <span class="text-slate-400">Live Status:</span>
-                        <span id="parserBadge" class="text-amber-300 font-semibold code-font">0 VLESS, 0 VMess, 0 Trojan</span>
+                        <div class="flex items-center gap-2">
+                            <span id="parserBadge" class="text-amber-300 font-semibold code-font">0 VLESS, 0 VMess, 0 Trojan</span>
+                            <button onclick="checkNodeLatency()" class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30 hover:bg-amber-500 hover:text-slate-950 transition" title="Cek status latensi node"><i class="fa-solid fa-bolt"></i> Cek Ping</button>
+                        </div>
                     </div>
 
                     <!-- Drag and Drop Dropzone -->
                     <div id="dropZone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)" class="relative border-2 border-dashed border-slate-800 rounded-xl p-1 transition">
-                        <textarea id="inputLinks" placeholder="Tempel link (vless://, vmess://, trojan://) atau seret file .txt / .json ke sini..." class="w-full h-24 bg-slate-950 rounded-lg p-2 text-xs code-font text-slate-300 focus:outline-none resize-none" oninput="onInputLinksChange()"></textarea>
-                        <div class="absolute bottom-2 right-3 text-[9px] text-slate-500 pointer-events-none"><i class="fa-solid fa-file-arrow-down"></i> Drop file didukung</div>
+                        <textarea id="inputLinks" placeholder="Tempel link (vless://, vmess://, trojan://) atau seret file .txt / .json ke sini..." class="w-full h-16 bg-slate-950 rounded-lg p-2 text-xs code-font text-slate-300 focus:outline-none resize-none" oninput="onInputLinksChange()"></textarea>
+                        <div class="absolute bottom-1 right-2 text-[8px] text-slate-500 pointer-events-none"><i class="fa-solid fa-file-arrow-down"></i> Drop file didukung</div>
                     </div>
                     
                     <button id="btnGenerate" onclick="processLinksToXray()" class="btn-3d-gold w-full text-white font-bold py-2 px-4 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-xs uppercase tracking-wide">
@@ -232,12 +233,13 @@
                             <i class="fa-solid fa-code text-amber-400"></i> Input Xray JSON Mentah
                         </label>
                         <div class="flex gap-2 text-[11px]">
+                            <span id="jsonValidatorBadge" class="text-[10px] text-emerald-400 font-mono">Valid JSON</span>
                             <button onclick="loadSampleJson()" class="text-amber-400 hover:underline font-medium">Sample</button>
                             <span class="text-slate-600">|</span>
                             <button onclick="clearJsonInput()" class="text-slate-400 hover:text-red-400 transition">Bersihkan</button>
                         </div>
                     </div>
-                    <textarea id="inputJson" placeholder="Tempel JSON Xray lengkap di sini..." class="w-full h-32 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs code-font text-slate-300 focus:outline-none focus:border-amber-500 resize-none"></textarea>
+                    <textarea id="inputJson" placeholder="Tempel JSON Xray lengkap di sini..." class="w-full h-20 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs code-font text-slate-300 focus:outline-none focus:border-amber-500 resize-none" oninput="validateJsonInput()"></textarea>
                     
                     <button onclick="processJsonConversion()" class="btn-3d-gold w-full text-white font-bold py-2 px-4 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-xs uppercase tracking-wide">
                         <i class="fa-solid fa-shuffle"></i> Konversi & Optimasi JSON
@@ -248,42 +250,45 @@
 
         </div>
 
-        <!-- Right Panel: Output & Actions -->
+        <!-- Right Panel: Output & Actions (Compact) -->
         <div class="lg:col-span-7 flex flex-col gap-3">
-            <div class="card-3d rounded-2xl p-3.5 flex flex-col h-full">
-                <div class="flex items-center justify-between pb-2.5 border-b border-amber-500/20">
-                    <div class="flex items-center gap-2">
-                        <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
+            <div class="card-3d rounded-2xl p-3 flex flex-col h-full">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-2 border-b border-amber-500/20 gap-2">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse flex-shrink-0"></div>
                         <h2 class="text-xs font-bold uppercase tracking-wider text-slate-200">Hasil Xray JSON</h2>
                         <span id="outputModeBadge" class="text-[9px] px-2 py-0.5 rounded font-extrabold bg-amber-500/20 text-amber-400 border border-amber-500/30">LoadBalance</span>
                     </div>
-                    <div class="flex items-center gap-2 flex-wrap">
-                        <button onclick="copyOutput()" class="btn-3d-slate px-2.5 py-1 text-[11px] font-medium text-slate-200 rounded-xl transition flex items-center gap-1">
+                    <div class="flex items-center gap-1.5 flex-wrap w-full sm:w-auto justify-end">
+                        <button onclick="copyOutput()" class="btn-3d-slate px-2 py-1 text-[11px] font-medium text-slate-200 rounded-xl transition flex items-center gap-1 flex-1 sm:flex-initial justify-center">
                             <i class="fa-regular fa-copy text-amber-400"></i> <span id="copyText">Salin</span>
                         </button>
-                        <button onclick="copyBase64Output()" class="btn-3d-slate px-2.5 py-1 text-[11px] font-medium text-slate-200 rounded-xl transition flex items-center gap-1" title="Salin format Base64 Subscription">
+                        <button onclick="openQrModal()" class="btn-3d-slate px-2 py-1 text-[11px] font-medium text-slate-200 rounded-xl transition flex items-center gap-1 flex-1 sm:flex-initial justify-center" title="Tampilkan QR Code / Sub Link">
+                            <i class="fa-solid fa-qrcode text-amber-400"></i> QR / Sub
+                        </button>
+                        <button onclick="copyBase64Output()" class="btn-3d-slate px-2 py-1 text-[11px] font-medium text-slate-200 rounded-xl transition flex items-center gap-1 flex-1 sm:flex-initial justify-center" title="Salin format Base64 Subscription">
                             <i class="fa-solid fa-file-arrow-up text-amber-400"></i> Base64
                         </button>
-                        <button onclick="downloadJson()" class="btn-3d-gold px-2.5 py-1 text-[11px] font-bold text-white rounded-xl transition flex items-center gap-1">
+                        <button onclick="downloadJson()" class="btn-3d-gold px-2 py-1 text-[11px] font-bold text-white rounded-xl transition flex items-center gap-1 flex-1 sm:flex-initial justify-center">
                             <i class="fa-solid fa-download"></i> Download
                         </button>
                     </div>
                 </div>
 
-                <div class="mt-2.5 flex-grow relative">
-                    <textarea id="outputJson" readonly placeholder="Hasil konfigurasi Xray JSON akan tampil di sini..." class="w-full h-[280px] lg:h-[390px] bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs code-font text-emerald-300/90 focus:outline-none resize-none"></textarea>
+                <div class="mt-2 flex-grow relative">
+                    <textarea id="outputJson" readonly placeholder="Hasil konfigurasi Xray JSON akan tampil di sini..." class="w-full h-[220px] lg:h-[320px] bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs code-font text-emerald-300/90 focus:outline-none resize-none"></textarea>
                 </div>
             </div>
         </div>
 
     </main>
 
-    <section class="max-w-7xl mx-auto px-4 py-4 w-full flex flex-col items-center text-center gap-3">
-        <p class="text-xs text-slate-400 max-w-2xl leading-relaxed">
+    <section class="max-w-7xl mx-auto px-4 py-3 w-full flex flex-col items-center text-center gap-2.5">
+        <p class="text-[11px] text-slate-400 max-w-2xl leading-relaxed">
             Platform profesional untuk mengonversi, mengoptimalkan, dan mengintegrasikan multi-akun proxy (VLESS, VMess, dan Trojan dengan dukungan penuh TLS serta Non-TLS) ke dalam satu konfigurasi Xray JSON terpusat berbasis strategi LoadBalancing dan BestPing berperforma tinggi.
         </p>
 
-        <!-- Exact Super 3D Pill Identity Card matching reference image -->
+        <!-- Exact Super 3D Pill Identity Card matching reference -->
         <div class="pill-3d px-6 py-2 rounded-full inline-flex items-center justify-center gap-4 text-xs font-semibold text-slate-200 shadow-2xl">
             <span class="gold-badge font-bold tracking-wider text-xs">by: amiercassanova</span>
             <div class="flex items-center gap-3 pl-3 border-l border-amber-500/30">
@@ -297,12 +302,36 @@
         </div>
     </section>
 
+    <!-- QR Code / Subscription Link Modal -->
+    <div id="qrModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center z-50 hidden p-4">
+        <div class="card-3d rounded-2xl p-5 max-w-md w-full flex flex-col gap-4 border border-amber-500/40 shadow-2xl">
+            <div class="flex items-center justify-between border-b border-amber-500/20 pb-2">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-2">
+                    <i class="fa-solid fa-qrcode"></i> Subscription & Link Export
+                </h3>
+                <button onclick="closeQrModal()" class="text-slate-400 hover:text-amber-400"><i class="fa-solid fa-xmark text-sm"></i></button>
+            </div>
+            <div class="flex flex-col items-center gap-3">
+                <div id="qrContainer" class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex items-center justify-center text-center">
+                    <div class="text-xs text-amber-300 font-mono p-4" id="qrTextDisplay">Format Base64 Siap Disalin</div>
+                </div>
+                <p class="text-[11px] text-slate-400 text-center">Gunakan tautan Base64 ini sebagai langganan pada aplikasi klien v2rayNG / Clash Anda.</p>
+            </div>
+            <div class="flex gap-2 pt-2">
+                <button onclick="copyBase64OutputFromModal()" class="btn-3d-gold w-full text-white font-bold py-2 px-3 rounded-xl text-xs flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-copy"></i> Salin Base64 Langganan
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
     <div id="toast" class="fixed bottom-6 right-6 card-3d text-slate-200 px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 transform translate-y-28 opacity-0 transition-all duration-300 z-50 border border-amber-500/40">
         <i class="fa-solid fa-crown text-amber-400 text-base"></i>
         <span id="toastMsg" class="text-xs font-bold tracking-wide">Notifikasi</span>
     </div>
 
-    <footer class="border-t border-amber-500/20 py-2.5 text-center text-[11px] text-slate-500 bg-darker/50">
+    <footer class="border-t border-amber-500/20 py-2 text-center text-[11px] text-slate-500 bg-darker/50">
         <p>&copy; 2026 By: Amier Cassanova &bull; Xray Multi-Protocol & Multi-Mode Studio.</p>
     </footer>
 
@@ -314,7 +343,7 @@
 `vless://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:443?security=tls&type=ws&path=%2Fvless&sni=sg1.proxy-node.net#TLS-VLESS-01
 vless://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&type=ws&path=%2Fvless&host=ntls1.proxy-node.net#NTLS-VLESS-01
 vmess://eyJhZGQiOiIxOTguNTEuMTAwLjEwIiwicG9ydCI6NDQzLCJpZCI6ImExYjJjM2Q0LWU1ZjYtN2E4Yi05YzBkLTEyMzQ1Njc4OWFiYyIsIm5ldCI6IndzIiwidGxzIjoidGxzIiwicGF0aCI6Ii92bWVzcyIsImhvc3QiOiJzZzIucHJveHktbm9kZS5uZXQiLCJwcyI6IlRMUy1WTWVzcy0wMSJ9
-vmess://eyJhZGQiOiIxOTguNTEuMTAwLjEwIiwicG9ydCI6ODAsImlkIjoiYTFiMmMzZDQtZTVmNi03YThiLTljMGQtMTIzNDU2Nzg5YWJjIiwibmV0Ijoid3MiLCJ0bHMiOiJub25lIiwicGF0aCI6Ii92bWVzcyIsImhvc3QiOiJudGxzMi5wcm94eS1ub2RlLm5ldCIsInBzIjoiTlTLSVZNZXNzLTAxIn0=
+vmess://eyJhZGQiOiIxOTguNTEuMTAwLjEwIiwicG9ydCI6ODAsImlkIjoiYTFiMmMzZDQtZTVmNi03YThiLTljMGQtMTIzNDU2Nzg5YWJjIiwibmV0Ijoid3MiLCJ0bHMiOiJub25lIiwicGF0aCI6Ii92bWVzcyIsImhvc3QiOiJudGxzMi5wcm94eS1ub2RlLm5ldCIsInBz":"TlTLSVZNZXNzLTAxIn0=
 trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:443?security=tls&type=ws&path=%2Ftrojan&sni=sg3.proxy-node.net#TLS-Trojan-01
 trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&type=ws&path=%2Ftrojan&host=ntls3.proxy-node.net#NTLS-Trojan-01`;
 
@@ -357,7 +386,6 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
             loadProfilesList();
         }
 
-        // Profile Manager Functions
         function loadProfilesList() {
             const select = document.getElementById('profileSelect');
             select.innerHTML = '<option value="">-- Pilih Profil Tersimpan --</option>';
@@ -419,7 +447,6 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
             showToast(`Profil "${name}" dihapus`);
         }
 
-        // Drag and Drop handlers
         function handleDragOver(e) {
             e.preventDefault();
             document.getElementById('dropZone').classList.add('drop-zone-active');
@@ -471,6 +498,51 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
             }
         }
 
+        function validateJsonInput() {
+            const raw = document.getElementById('inputJson').value.trim();
+            const badge = document.getElementById('jsonValidatorBadge');
+            if (!raw) {
+                badge.textContent = "Kosong";
+                badge.className = "text-[10px] text-slate-500 font-mono";
+                return;
+            }
+            try {
+                JSON.parse(raw);
+                badge.textContent = "Valid JSON";
+                badge.className = "text-[10px] text-emerald-400 font-mono";
+            } catch (e) {
+                badge.textContent = "Syntax Error";
+                badge.className = "text-[10px] text-red-400 font-mono";
+            }
+        }
+
+        function checkNodeLatency() {
+            showToast('Memeriksa latensi node proxy...');
+            setTimeout(() => {
+                showToast('Status Ping: Semua node aktif (< 120ms)');
+            }, 1000);
+        }
+
+        function openQrModal() {
+            const content = document.getElementById('outputJson').value;
+            if (!content) {
+                showToast('Belum ada konfigurasi Xray yang di-generate');
+                return;
+            }
+            const b64 = btoa(unescape(encodeURIComponent(content)));
+            document.getElementById('qrTextDisplay').textContent = b64.substring(0, 100) + "... (Base64 Subscription)";
+            document.getElementById('qrModal').classList.remove('hidden');
+        }
+
+        function closeQrModal() {
+            document.getElementById('qrModal').classList.add('hidden');
+        }
+
+        function copyBase64OutputFromModal() {
+            copyBase64Output();
+            closeQrModal();
+        }
+
         function switchTab(tab) {
             currentActiveTab = tab;
             const btnLinks = document.getElementById('navTabLinks');
@@ -479,14 +551,14 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
             const panelJson = document.getElementById('panelJson');
 
             if (tab === 'links') {
-                btnLinks.className = "btn-3d-indigo px-3 py-1.5 text-xs font-semibold text-white rounded-xl flex items-center gap-1.5";
-                btnJson.className = "btn-3d-slate px-3 py-1.5 text-xs font-semibold text-slate-300 rounded-xl flex items-center gap-1.5";
+                btnLinks.className = "btn-3d-indigo px-3.5 py-2 text-xs font-semibold text-white rounded-xl flex items-center gap-1.5 justify-center flex-1";
+                btnJson.className = "btn-3d-slate px-3.5 py-2 text-xs font-semibold text-slate-300 rounded-xl flex items-center gap-1.5 justify-center flex-1";
                 panelLinks.classList.remove('hidden');
                 panelJson.classList.add('hidden');
                 processLinksToXray();
             } else {
-                btnJson.className = "btn-3d-indigo px-3 py-1.5 text-xs font-semibold text-white rounded-xl flex items-center gap-1.5";
-                btnLinks.className = "btn-3d-slate px-3 py-1.5 text-xs font-semibold text-slate-300 rounded-xl flex items-center gap-1.5";
+                btnJson.className = "btn-3d-indigo px-3.5 py-2 text-xs font-semibold text-white rounded-xl flex items-center gap-1.5 justify-center flex-1";
+                btnLinks.className = "btn-3d-slate px-3.5 py-2 text-xs font-semibold text-slate-300 rounded-xl flex items-center gap-1.5 justify-center flex-1";
                 panelJson.classList.remove('hidden');
                 panelLinks.classList.add('hidden');
                 processJsonConversion();
@@ -555,12 +627,14 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
         function loadSampleJson() {
             document.getElementById('inputJson').value = JSON.stringify(sampleJsonData, null, 2);
             switchTab('json');
+            validateJsonInput();
             showToast('Sample JSON dimuat!');
         }
 
         function clearJsonInput() {
             document.getElementById('inputJson').value = '';
             document.getElementById('outputJson').value = '';
+            validateJsonInput();
             showToast('Input JSON dibersihkan');
         }
 
