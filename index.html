@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="id" class="dark">
 <head>
@@ -21,9 +22,7 @@
             }
         }
     </script>
-    <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts Inter & JetBrains Mono -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #0b0f19; }
@@ -78,6 +77,11 @@
             border: 1px solid rgba(245, 158, 11, 0.4);
         }
 
+        .drop-zone-active {
+            border-color: #f59e0b !important;
+            background-color: rgba(245, 158, 11, 0.05) !important;
+        }
+
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #0b0f19; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
@@ -86,12 +90,11 @@
 <body class="text-slate-100 min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-white">
 
     <header class="border-b border-amber-500/25 bg-darker/90 backdrop-blur sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div class="flex items-center space-x-3 w-full sm:w-auto">
-                <!-- Tailored Server Stack & Multi-Node Routing Logo -->
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center space-x-3">
                 <div class="bg-gradient-to-tr from-amber-500 via-yellow-600 to-amber-700 p-2 rounded-2xl shadow-lg shadow-amber-500/30 text-slate-950 flex-shrink-0 border border-amber-400/50 flex items-center justify-center w-10 h-10">
-                    <svg class="w-6 h-6 text-slate-950 drop-shadow" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2.21 3.58 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.58 4 8 4s8-1.79 8-4M4 7c0-2.21 3.58-4 8-4s8 1.79 8 4m0 5c0 2.21-3.58 4-8 4s-8-1.79-8-4"></path>
+                    <svg class="w-6 h-6 text-slate-950 drop-shadow" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
                     </svg>
                 </div>
                 <div>
@@ -100,110 +103,144 @@
                     </h1>
                 </div>
             </div>
-            <div class="flex items-center gap-2 flex-wrap w-full sm:w-auto justify-end">
-                <button onclick="switchTab('links')" id="navTabLinks" class="btn-3d-indigo px-3.5 py-2 text-xs font-semibold text-white rounded-xl flex items-center gap-2">
-                    <i class="fa-solid fa-link"></i> Generator dari Link / Sub
+            <div class="flex items-center gap-2 flex-wrap">
+                <button onclick="switchTab('links')" id="navTabLinks" class="btn-3d-indigo px-3 py-1.5 text-xs font-semibold text-white rounded-xl flex items-center gap-1.5">
+                    <i class="fa-solid fa-link"></i> Link Generator
                 </button>
-                <button onclick="switchTab('json')" id="navTabJson" class="btn-3d-slate px-3.5 py-2 text-xs font-semibold text-slate-300 rounded-xl flex items-center gap-2">
-                    <i class="fa-solid fa-code"></i> Konverter JSON Eksisting
+                <button onclick="switchTab('json')" id="navTabJson" class="btn-3d-slate px-3 py-1.5 text-xs font-semibold text-slate-300 rounded-xl flex items-center gap-1.5">
+                    <i class="fa-solid fa-code"></i> JSON Converter
                 </button>
             </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 py-5 w-full flex-grow grid grid-cols-1 lg:grid-cols-12 gap-5">
+    <main class="max-w-7xl mx-auto px-4 py-4 w-full flex-grow grid grid-cols-1 lg:grid-cols-12 gap-4">
         
         <!-- Left Panel: Configurations & Inputs -->
-        <div class="lg:col-span-5 flex flex-col gap-4">
+        <div class="lg:col-span-5 flex flex-col gap-3">
             
             <!-- Mode Selector Card -->
-            <div class="card-3d rounded-2xl p-4 flex flex-col gap-3">
+            <div class="card-3d rounded-2xl p-3.5 flex flex-col gap-2.5">
                 <div class="flex items-center justify-between">
-                    <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-2">
+                    <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
                         <i class="fa-solid fa-sliders text-amber-400"></i> Mode Strategi Routing
                     </h2>
-                    <span id="validationStatus" class="text-[10px] px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/30 font-semibold">Multi-Protocol Active</span>
+                    <span id="validationStatus" class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/30 font-semibold">TLS & Non-TLS Active</span>
                 </div>
 
-                <div class="grid grid-cols-2 gap-2.5">
-                    <button id="btnModeLB" onclick="setTargetMode('loadbalance')" class="p-3 rounded-xl border border-amber-500/50 bg-amber-500/10 text-amber-300 text-xs font-bold flex flex-col items-center gap-1 transition text-center shadow-md shadow-amber-500/10">
-                        <i class="fa-solid fa-scale-balanced text-base"></i>
+                <div class="grid grid-cols-2 gap-2">
+                    <button id="btnModeLB" onclick="setTargetMode('loadbalance')" class="p-2 rounded-xl border border-amber-500/50 bg-amber-500/10 text-amber-300 text-xs font-bold flex flex-col items-center gap-0.5 transition text-center shadow-md">
+                        <i class="fa-solid fa-scale-balanced text-xs"></i>
                         <span>LoadBalance</span>
-                        <span class="text-[9px] opacity-75 font-normal">burstObservatory (leastLoad)</span>
+                        <span class="text-[8px] opacity-75 font-normal">leastLoad</span>
                     </button>
-                    <button id="btnModeBP" onclick="setTargetMode('bestping')" class="p-3 rounded-xl border border-slate-700 bg-slate-900/50 text-slate-400 text-xs font-bold flex flex-col items-center gap-1 transition text-center hover:bg-slate-800">
-                        <i class="fa-solid fa-bolt-lightning text-base"></i>
+                    <button id="btnModeBP" onclick="setTargetMode('bestping')" class="p-2 rounded-xl border border-slate-700 bg-slate-900/50 text-slate-400 text-xs font-bold flex flex-col items-center gap-0.5 transition text-center hover:bg-slate-800">
+                        <i class="fa-solid fa-bolt-lightning text-xs"></i>
                         <span>Best Ping</span>
-                        <span class="text-[9px] opacity-75 font-normal">observatory (leastPing)</span>
+                        <span class="text-[8px] opacity-75 font-normal">leastPing</span>
                     </button>
                 </div>
             </div>
 
-            <!-- Probe & Port Settings Card -->
-            <div class="card-3d rounded-2xl p-4 flex flex-col gap-3">
-                <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-2">
-                    <i class="fa-solid fa-gear text-amber-400"></i> Konfigurasi Probe & Inbound
-                </h2>
+            <!-- Profile Manager Card -->
+            <div class="card-3d rounded-2xl p-3.5 flex flex-col gap-2.5">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+                        <i class="fa-solid fa-address-card text-amber-400"></i> Profile Manager
+                    </h2>
+                    <div class="flex gap-1.5">
+                        <button onclick="saveNewProfile()" class="text-[10px] text-amber-400 hover:underline font-semibold">+ Simpan Profil</button>
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <select id="profileSelect" onchange="loadSelectedProfile()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-1.5 text-slate-200 text-xs focus:outline-none focus:border-amber-500">
+                        <option value="">-- Pilih Profil Tersimpan --</option>
+                    </select>
+                    <button onclick="deleteSelectedProfile()" class="btn-3d-slate px-2.5 py-1 text-xs text-red-400 rounded-xl" title="Hapus Profil"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            </div>
+
+            <!-- Accordion for Advanced Settings -->
+            <div class="card-3d rounded-2xl p-3.5 flex flex-col gap-2.5">
+                <button onclick="toggleAdvancedSettings()" class="flex items-center justify-between w-full text-xs font-bold uppercase tracking-wider text-amber-400 focus:outline-none">
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-gear"></i> Pengaturan Lanjutan (Opsional)</span>
+                    <i id="accordionIcon" class="fa-solid fa-chevron-down transition-transform"></i>
+                </button>
                 
-                <div class="space-y-2.5 text-xs">
+                <div id="advancedContent" class="space-y-2.5 text-xs hidden pt-2 border-t border-amber-500/20">
                     <div>
-                        <label class="block text-slate-400 mb-1 font-medium">Probe URL (Connectivity Check)</label>
-                        <input type="text" id="optProbeURL" value="https://connectivitycheck.gstatic.com/generate_204" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200 code-font focus:outline-none focus:border-amber-500 text-xs">
+                        <label class="block text-slate-400 mb-1 font-medium">Probe URL</label>
+                        <input type="text" id="optProbeURL" value="https://connectivitycheck.gstatic.com/generate_204" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-1.5 text-slate-200 code-font focus:outline-none focus:border-amber-500 text-xs" oninput="saveSettingsToLocalStorage()">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1 font-medium">Custom Tag Prefix</label>
+                        <input type="text" id="optPrefix" value="TLS-,NTLS-" placeholder="TLS-,NTLS-" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-1.5 text-slate-200 code-font focus:outline-none focus:border-amber-500 text-xs" oninput="saveSettingsToLocalStorage()">
                     </div>
                     <div class="grid grid-cols-3 gap-2">
                         <div>
                             <label class="block text-slate-400 mb-1 font-medium">Interval</label>
-                            <input type="text" id="optInterval" value="3m" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200 code-font focus:outline-none focus:border-amber-500 text-xs">
+                            <input type="text" id="optInterval" value="3m" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-1.5 text-slate-200 code-font focus:outline-none focus:border-amber-500 text-xs" oninput="saveSettingsToLocalStorage()">
                         </div>
                         <div>
-                            <label class="block text-slate-400 mb-1 font-medium">Socks Port</label>
-                            <input type="number" id="optSocksPort" value="10808" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200 code-font focus:outline-none focus:border-amber-500 text-xs">
+                            <label class="block text-slate-400 mb-1 font-medium">Socks</label>
+                            <input type="number" id="optSocksPort" value="10808" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-1.5 text-slate-200 code-font focus:outline-none focus:border-amber-500 text-xs" oninput="saveSettingsToLocalStorage()">
                         </div>
                         <div>
-                            <label class="block text-slate-400 mb-1 font-medium">HTTP Port</label>
-                            <input type="number" id="optHttpPort" value="10809" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200 code-font focus:outline-none focus:border-amber-500 text-xs">
+                            <label class="block text-slate-400 mb-1 font-medium">HTTP</label>
+                            <input type="number" id="optHttpPort" value="10809" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-1.5 text-slate-200 code-font focus:outline-none focus:border-amber-500 text-xs" oninput="saveSettingsToLocalStorage()">
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Input Panels Card (Compact height) -->
-            <div class="card-3d rounded-2xl p-4 flex flex-col gap-3 flex-grow">
+            <!-- Input Panels Card with Drag-and-Drop support -->
+            <div class="card-3d rounded-2xl p-3.5 flex flex-col gap-2.5 flex-grow">
                 
                 <!-- Links Panel -->
-                <div id="panelLinks" class="flex flex-col gap-2.5 flex-grow">
+                <div id="panelLinks" class="flex flex-col gap-2 flex-grow">
                     <div class="flex items-center justify-between">
-                        <label class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
-                            <i class="fa-solid fa-list-check text-amber-400"></i> Akun Proxy (TLS & Non-TLS: VLESS, VMess, Trojan)
+                        <label class="text-[11px] font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-list-check text-amber-400"></i> Akun Proxy (VLESS, VMess, Trojan)
                         </label>
                         <div class="flex gap-2 text-[11px]">
-                            <button onclick="loadSampleMultiProtocol()" class="text-amber-400 hover:underline font-medium">Muat Contoh</button>
+                            <button onclick="loadSampleMultiProtocol()" class="text-amber-400 hover:underline font-medium">Sample</button>
                             <span class="text-slate-600">|</span>
                             <button onclick="clearLinksInput()" class="text-slate-400 hover:text-red-400 transition">Bersihkan</button>
                         </div>
                     </div>
-                    <textarea id="inputLinks" placeholder="Tempel link vless://, vmess://, atau trojan:// di sini..." class="w-full h-24 bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs code-font text-slate-300 focus:outline-none focus:border-amber-500 resize-none"></textarea>
+
+                    <!-- Live Parser Counter Badge -->
+                    <div class="flex items-center justify-between bg-slate-950/80 px-3 py-1.5 rounded-lg border border-slate-800 text-[11px]">
+                        <span class="text-slate-400">Live Status:</span>
+                        <span id="parserBadge" class="text-amber-300 font-semibold code-font">0 VLESS, 0 VMess, 0 Trojan</span>
+                    </div>
+
+                    <!-- Drag and Drop Dropzone -->
+                    <div id="dropZone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)" class="relative border-2 border-dashed border-slate-800 rounded-xl p-1 transition">
+                        <textarea id="inputLinks" placeholder="Tempel link (vless://, vmess://, trojan://) atau seret file .txt / .json ke sini..." class="w-full h-24 bg-slate-950 rounded-lg p-2 text-xs code-font text-slate-300 focus:outline-none resize-none" oninput="onInputLinksChange()"></textarea>
+                        <div class="absolute bottom-2 right-3 text-[9px] text-slate-500 pointer-events-none"><i class="fa-solid fa-file-arrow-down"></i> Drop file didukung</div>
+                    </div>
                     
-                    <button onclick="processLinksToXray()" class="btn-3d-gold w-full text-white font-bold py-2.5 px-4 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-xs uppercase tracking-wide">
+                    <button id="btnGenerate" onclick="processLinksToXray()" class="btn-3d-gold w-full text-white font-bold py-2 px-4 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-xs uppercase tracking-wide">
                         <i class="fa-solid fa-bolt"></i> Generate Xray JSON
                     </button>
                 </div>
 
                 <!-- JSON Converter Panel -->
-                <div id="panelJson" class="flex flex-col gap-2.5 flex-grow hidden">
+                <div id="panelJson" class="flex flex-col gap-2 flex-grow hidden">
                     <div class="flex items-center justify-between">
-                        <label class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+                        <label class="text-[11px] font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
                             <i class="fa-solid fa-code text-amber-400"></i> Input Xray JSON Mentah
                         </label>
                         <div class="flex gap-2 text-[11px]">
-                            <button onclick="loadSampleJson()" class="text-amber-400 hover:underline font-medium">Muat Sample</button>
+                            <button onclick="loadSampleJson()" class="text-amber-400 hover:underline font-medium">Sample</button>
                             <span class="text-slate-600">|</span>
                             <button onclick="clearJsonInput()" class="text-slate-400 hover:text-red-400 transition">Bersihkan</button>
                         </div>
                     </div>
-                    <textarea id="inputJson" placeholder="Tempel JSON Xray lengkap di sini..." class="w-full h-24 bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs code-font text-slate-300 focus:outline-none focus:border-amber-500 resize-none"></textarea>
+                    <textarea id="inputJson" placeholder="Tempel JSON Xray lengkap di sini..." class="w-full h-32 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs code-font text-slate-300 focus:outline-none focus:border-amber-500 resize-none"></textarea>
                     
-                    <button onclick="processJsonConversion()" class="btn-3d-gold w-full text-white font-bold py-2.5 px-4 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-xs uppercase tracking-wide">
+                    <button onclick="processJsonConversion()" class="btn-3d-gold w-full text-white font-bold py-2 px-4 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-xs uppercase tracking-wide">
                         <i class="fa-solid fa-shuffle"></i> Konversi & Optimasi JSON
                     </button>
                 </div>
@@ -212,47 +249,50 @@
 
         </div>
 
-        <!-- Right Panel: Output & Actions (Compact height) -->
-        <div class="lg:col-span-7 flex flex-col gap-4">
-            <div class="card-3d rounded-2xl p-4 flex flex-col h-full">
-                <div class="flex items-center justify-between pb-3 border-b border-amber-500/20">
+        <!-- Right Panel: Output & Actions -->
+        <div class="lg:col-span-7 flex flex-col gap-3">
+            <div class="card-3d rounded-2xl p-3.5 flex flex-col h-full">
+                <div class="flex items-center justify-between pb-2.5 border-b border-amber-500/20">
                     <div class="flex items-center gap-2">
                         <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
                         <h2 class="text-xs font-bold uppercase tracking-wider text-slate-200">Hasil Xray JSON</h2>
                         <span id="outputModeBadge" class="text-[9px] px-2 py-0.5 rounded font-extrabold bg-amber-500/20 text-amber-400 border border-amber-500/30">LoadBalance</span>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <button onclick="copyOutput()" class="btn-3d-slate px-3 py-1.5 text-xs font-medium text-slate-200 rounded-xl transition flex items-center gap-1.5">
-                            <i class="fa-regular fa-copy text-amber-400"></i> Salin
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <button onclick="copyOutput()" class="btn-3d-slate px-2.5 py-1 text-[11px] font-medium text-slate-200 rounded-xl transition flex items-center gap-1">
+                            <i class="fa-regular fa-copy text-amber-400"></i> <span id="copyText">Salin</span>
                         </button>
-                        <button onclick="downloadJson()" class="btn-3d-gold px-3 py-1.5 text-xs font-bold text-white rounded-xl transition flex items-center gap-1.5">
+                        <button onclick="copyBase64Output()" class="btn-3d-slate px-2.5 py-1 text-[11px] font-medium text-slate-200 rounded-xl transition flex items-center gap-1" title="Salin format Base64 Subscription">
+                            <i class="fa-solid fa-file-arrow-up text-amber-400"></i> Base64
+                        </button>
+                        <button onclick="downloadJson()" class="btn-3d-gold px-2.5 py-1 text-[11px] font-bold text-white rounded-xl transition flex items-center gap-1">
                             <i class="fa-solid fa-download"></i> Download
                         </button>
                     </div>
                 </div>
 
-                <div class="mt-3 flex-grow relative">
-                    <textarea id="outputJson" readonly placeholder="Hasil konfigurasi Xray JSON akan tampil di sini..." class="w-full h-[280px] lg:h-[350px] bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-xs code-font text-emerald-300/90 focus:outline-none resize-none"></textarea>
+                <div class="mt-2.5 flex-grow relative">
+                    <textarea id="outputJson" readonly placeholder="Hasil konfigurasi Xray JSON akan tampil di sini..." class="w-full h-[280px] lg:h-[390px] bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs code-font text-emerald-300/90 focus:outline-none resize-none"></textarea>
                 </div>
             </div>
         </div>
 
     </main>
 
-    <section class="max-w-7xl mx-auto px-4 py-5 w-full flex flex-col items-center text-center gap-4">
+    <section class="max-w-7xl mx-auto px-4 py-4 w-full flex flex-col items-center text-center gap-3">
         <p class="text-xs text-slate-400 max-w-2xl leading-relaxed">
             Platform profesional untuk mengonversi, mengoptimalkan, dan mengintegrasikan multi-akun proxy (VLESS, VMess, dan Trojan dengan dukungan penuh TLS serta Non-TLS) ke dalam satu konfigurasi Xray JSON terpusat berbasis strategi LoadBalancing dan BestPing berperforma tinggi.
         </p>
 
         <!-- Exact Super 3D Pill Identity Card matching reference image -->
-        <div class="pill-3d px-6 py-2.5 rounded-full inline-flex items-center justify-center gap-5 text-xs font-semibold text-slate-200 shadow-2xl">
+        <div class="pill-3d px-6 py-2 rounded-full inline-flex items-center justify-center gap-4 text-xs font-semibold text-slate-200 shadow-2xl">
             <span class="gold-badge font-bold tracking-wider text-xs">by: amiercassanova</span>
             <div class="flex items-center gap-3 pl-3 border-l border-amber-500/30">
-                <a href="https://t.me/amiercassanova" target="_blank" class="w-8 h-8 rounded-full bg-slate-900 border border-amber-500/50 flex items-center justify-center text-amber-400 hover:bg-amber-500 hover:text-slate-950 transition shadow-inner">
-                    <i class="fa-brands fa-telegram text-sm"></i>
+                <a href="https://t.me/amiercassanova" target="_blank" class="w-7 h-7 rounded-full bg-slate-900 border border-amber-500/50 flex items-center justify-center text-amber-400 hover:bg-amber-500 hover:text-slate-950 transition shadow-inner">
+                    <i class="fa-brands fa-telegram text-xs"></i>
                 </a>
-                <a href="https://wa.me/" target="_blank" class="w-8 h-8 rounded-full bg-slate-900 border border-amber-500/50 flex items-center justify-center text-amber-400 hover:bg-amber-500 hover:text-slate-950 transition shadow-inner">
-                    <i class="fa-brands fa-whatsapp text-sm"></i>
+                <a href="https://wa.me/" target="_blank" class="w-7 h-7 rounded-full bg-slate-900 border border-amber-500/50 flex items-center justify-center text-amber-400 hover:bg-amber-500 hover:text-slate-950 transition shadow-inner">
+                    <i class="fa-brands fa-whatsapp text-xs"></i>
                 </a>
             </div>
         </div>
@@ -263,13 +303,174 @@
         <span id="toastMsg" class="text-xs font-bold tracking-wide">Notifikasi</span>
     </div>
 
-    <footer class="border-t border-amber-500/20 py-3 text-center text-[11px] text-slate-500 bg-darker/50">
+    <footer class="border-t border-amber-500/20 py-2.5 text-center text-[11px] text-slate-500 bg-darker/50">
         <p>&copy; 2026 By: Amier Cassanova &bull; Xray Multi-Protocol & Multi-Mode Studio.</p>
     </footer>
 
     <script>
         let currentTargetMode = 'loadbalance';
         let currentActiveTab = 'links';
+
+        const sampleMultiProtocolText = 
+`vless://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:443?security=tls&type=ws&path=%2Fvless&sni=sg1.proxy-node.net#TLS-VLESS-01
+vless://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&type=ws&path=%2Fvless&host=ntls1.proxy-node.net#NTLS-VLESS-01
+vmess://eyJhZGQiOiIxOTguNTEuMTAwLjEwIiwicG9ydCI6NDQzLCJpZCI6ImExYjJjM2Q0LWU1ZjYtN2E4Yi05YzBkLTEyMzQ1Njc4OWFiYyIsIm5ldCI6IndzIiwidGxzIjoidGxzIiwicGF0aCI6Ii92bWVzcyIsImhvc3QiOiJzZzIucHJveHktbm9kZS5uZXQiLCJwcyI6IlRMUy1WTWVzcy0wMSJ9
+vmess://eyJhZGQiOiIxOTguNTEuMTAwLjEwIiwicG9ydCI6ODAsImlkIjoiYTFiMmMzZDQtZTVmNi03YThiLTljMGQtMTIzNDU2Nzg5YWJjIiwibmV0Ijoid3MiLCJ0bHMiOiJub25lIiwicGF0aCI6Ii92bWVzcyIsImhvc3QiOiJudGxzMi5wcm94eS1ub2RlLm5ldCIsInBzIjoiTlTLSVZNZXNzLTAxIn0=
+trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:443?security=tls&type=ws&path=%2Ftrojan&sni=sg3.proxy-node.net#TLS-Trojan-01
+trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&type=ws&path=%2Ftrojan&host=ntls3.proxy-node.net#NTLS-Trojan-01`;
+
+        function toggleAdvancedSettings() {
+            const content = document.getElementById('advancedContent');
+            const icon = document.getElementById('accordionIcon');
+            content.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        }
+
+        function saveSettingsToLocalStorage() {
+            const settings = {
+                probeURL: document.getElementById('optProbeURL').value,
+                prefix: document.getElementById('optPrefix').value,
+                interval: document.getElementById('optInterval').value,
+                socksPort: document.getElementById('optSocksPort').value,
+                httpPort: document.getElementById('optHttpPort').value,
+                inputLinks: document.getElementById('inputLinks').value,
+                mode: currentTargetMode
+            };
+            localStorage.setItem('cassanova_studio_settings', JSON.stringify(settings));
+        }
+
+        function loadSettingsFromLocalStorage() {
+            const saved = localStorage.getItem('cassanova_studio_settings');
+            if (saved) {
+                try {
+                    const s = JSON.parse(saved);
+                    if (s.probeURL) document.getElementById('optProbeURL').value = s.probeURL;
+                    if (s.prefix) document.getElementById('optPrefix').value = s.prefix;
+                    if (s.interval) document.getElementById('optInterval').value = s.interval;
+                    if (s.socksPort) document.getElementById('optSocksPort').value = s.socksPort;
+                    if (s.httpPort) document.getElementById('optHttpPort').value = s.httpPort;
+                    if (s.inputLinks) document.getElementById('inputLinks').value = s.inputLinks;
+                    if (s.mode) setTargetMode(s.mode);
+                } catch (e) {
+                    console.error(e);
+                }
+            }
+            loadProfilesList();
+        }
+
+        // Profile Manager Functions
+        function loadProfilesList() {
+            const select = document.getElementById('profileSelect');
+            select.innerHTML = '<option value="">-- Pilih Profil Tersimpan --</option>';
+            const profiles = JSON.parse(localStorage.getItem('cassanova_profiles') || '{}');
+            Object.keys(profiles).forEach(name => {
+                const opt = document.createElement('option');
+                opt.value = name;
+                opt.textContent = name;
+                select.appendChild(opt);
+            });
+        }
+
+        function saveNewProfile() {
+            const name = prompt("Masukkan nama profil konfigurasi:");
+            if (!name) return;
+            const profiles = JSON.parse(localStorage.getItem('cassanova_profiles') || '{}');
+            profiles[name] = {
+                inputLinks: document.getElementById('inputLinks').value,
+                probeURL: document.getElementById('optProbeURL').value,
+                prefix: document.getElementById('optPrefix').value,
+                interval: document.getElementById('optInterval').value,
+                socksPort: document.getElementById('optSocksPort').value,
+                httpPort: document.getElementById('optHttpPort').value,
+                mode: currentTargetMode
+            };
+            localStorage.setItem('cassanova_profiles', JSON.stringify(profiles));
+            loadProfilesList();
+            showToast(`Profil "${name}" berhasil disimpan!`);
+        }
+
+        function loadSelectedProfile() {
+            const name = document.getElementById('profileSelect').value;
+            if (!name) return;
+            const profiles = JSON.parse(localStorage.getItem('cassanova_profiles') || '{}');
+            const p = profiles[name];
+            if (p) {
+                if (p.inputLinks) document.getElementById('inputLinks').value = p.inputLinks;
+                if (p.probeURL) document.getElementById('optProbeURL').value = p.probeURL;
+                if (p.prefix) document.getElementById('optPrefix').value = p.prefix;
+                if (p.interval) document.getElementById('optInterval').value = p.interval;
+                if (p.socksPort) document.getElementById('optSocksPort').value = p.socksPort;
+                if (p.httpPort) document.getElementById('optHttpPort').value = p.httpPort;
+                if (p.mode) setTargetMode(p.mode);
+                onInputLinksChange();
+                showToast(`Profil "${name}" dimuat!`);
+            }
+        }
+
+        function deleteSelectedProfile() {
+            const name = document.getElementById('profileSelect').value;
+            if (!name) {
+                showToast('Pilih profil yang ingin dihapus');
+                return;
+            }
+            const profiles = JSON.parse(localStorage.getItem('cassanova_profiles') || '{}');
+            delete profiles[name];
+            localStorage.setItem('cassanova_profiles', JSON.stringify(profiles));
+            loadProfilesList();
+            showToast(`Profil "${name}" dihapus`);
+        }
+
+        // Drag and Drop handlers
+        function handleDragOver(e) {
+            e.preventDefault();
+            document.getElementById('dropZone').classList.add('drop-zone-active');
+        }
+
+        function handleDragLeave(e) {
+            e.preventDefault();
+            document.getElementById('dropZone').classList.remove('drop-zone-active');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            document.getElementById('dropZone').classList.remove('drop-zone-active');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                const file = files[0];
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    document.getElementById('inputLinks').value = evt.target.result;
+                    onInputLinksChange();
+                    showToast(`File ${file.name} berhasil dimuat!`);
+                };
+                reader.readAsText(file);
+            }
+        }
+
+        function onInputLinksChange() {
+            saveSettingsToLocalStorage();
+            const text = document.getElementById('inputLinks').value;
+            const lines = text.split('\n');
+            let vlessCount = 0;
+            let vmessCount = 0;
+            let trojanCount = 0;
+
+            lines.forEach(l => {
+                const trimmed = l.trim().toLowerCase();
+                if (trimmed.startsWith('vless://')) vlessCount++;
+                else if (trimmed.startsWith('vmess://')) vmessCount++;
+                else if (trimmed.startsWith('trojan://')) trojanCount++;
+            });
+
+            document.getElementById('parserBadge').textContent = `${vlessCount} VLESS, ${vmessCount} VMess, ${trojanCount} Trojan`;
+            
+            const btnGen = document.getElementById('btnGenerate');
+            if (vlessCount > 0 || vmessCount > 0 || trojanCount > 0) {
+                btnGen.classList.add('ring-2', 'ring-amber-400', 'animate-pulse');
+            } else {
+                btnGen.classList.remove('ring-2', 'ring-amber-400', 'animate-pulse');
+            }
+        }
 
         function switchTab(tab) {
             currentActiveTab = tab;
@@ -279,14 +480,14 @@
             const panelJson = document.getElementById('panelJson');
 
             if (tab === 'links') {
-                btnLinks.className = "btn-3d-indigo px-3.5 py-2 text-xs font-semibold text-white rounded-xl flex items-center gap-2";
-                btnJson.className = "btn-3d-slate px-3.5 py-2 text-xs font-semibold text-slate-300 rounded-xl flex items-center gap-2";
+                btnLinks.className = "btn-3d-indigo px-3 py-1.5 text-xs font-semibold text-white rounded-xl flex items-center gap-1.5";
+                btnJson.className = "btn-3d-slate px-3 py-1.5 text-xs font-semibold text-slate-300 rounded-xl flex items-center gap-1.5";
                 panelLinks.classList.remove('hidden');
                 panelJson.classList.add('hidden');
                 processLinksToXray();
             } else {
-                btnJson.className = "btn-3d-indigo px-3.5 py-2 text-xs font-semibold text-white rounded-xl flex items-center gap-2";
-                btnLinks.className = "btn-3d-slate px-3.5 py-2 text-xs font-semibold text-slate-300 rounded-xl flex items-center gap-2";
+                btnJson.className = "btn-3d-indigo px-3 py-1.5 text-xs font-semibold text-white rounded-xl flex items-center gap-1.5";
+                btnLinks.className = "btn-3d-slate px-3 py-1.5 text-xs font-semibold text-slate-300 rounded-xl flex items-center gap-1.5";
                 panelJson.classList.remove('hidden');
                 panelLinks.classList.add('hidden');
                 processJsonConversion();
@@ -300,37 +501,31 @@
             const badge = document.getElementById('outputModeBadge');
 
             if (mode === 'loadbalance') {
-                btnLB.className = "p-3 rounded-xl border border-amber-500/50 bg-amber-500/10 text-amber-300 text-xs font-bold flex flex-col items-center gap-1 transition text-center shadow-lg shadow-amber-500/10";
-                btnBP.className = "p-3 rounded-xl border border-slate-700 bg-slate-900/50 text-slate-400 text-xs font-bold flex flex-col items-center gap-1 transition text-center hover:bg-slate-800";
+                btnLB.className = "p-2 rounded-xl border border-amber-500/50 bg-amber-500/10 text-amber-300 text-xs font-bold flex flex-col items-center gap-0.5 transition text-center shadow-md";
+                btnBP.className = "p-2 rounded-xl border border-slate-700 bg-slate-900/50 text-slate-400 text-xs font-bold flex flex-col items-center gap-0.5 transition text-center hover:bg-slate-800";
                 badge.textContent = "LoadBalance";
             } else {
-                btnBP.className = "p-3 rounded-xl border border-amber-500/50 bg-amber-500/10 text-amber-300 text-xs font-bold flex flex-col items-center gap-1 transition text-center shadow-lg shadow-amber-500/10";
-                btnLB.className = "p-3 rounded-xl border border-slate-700 bg-slate-900/50 text-slate-400 text-xs font-bold flex flex-col items-center gap-1 transition text-center hover:bg-slate-800";
+                btnBP.className = "p-2 rounded-xl border border-amber-500/50 bg-amber-500/10 text-amber-300 text-xs font-bold flex flex-col items-center gap-0.5 transition text-center shadow-md";
+                btnLB.className = "p-2 rounded-xl border border-slate-700 bg-slate-900/50 text-slate-400 text-xs font-bold flex flex-col items-center gap-0.5 transition text-center hover:bg-slate-800";
                 badge.textContent = "BestPing";
             }
             showToast(`Mode strategi diubah ke ${mode.toUpperCase()}`);
+            saveSettingsToLocalStorage();
             if (currentActiveTab === 'links') processLinksToXray();
             else processJsonConversion();
         }
 
-        // Dummy / fake sample account credentials (no real personal info) supporting TLS and Non-TLS across VLESS, VMess, and Trojan
-        const sampleMultiProtocolText = 
-`vless://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:443?security=tls&type=ws&path=%2Fvless&sni=sg1.proxy-node.net#TLS-VLESS-01
-vless://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&type=ws&path=%2Fvless&host=ntls1.proxy-node.net#NTLS-VLESS-01
-vmess://eyJhZGQiOiIxOTguNTEuMTAwLjEwIiwicG9ydCI6NDQzLCJpZCI6ImExYjJjM2Q0LWU1ZjYtN2E4Yi05YzBkLTEyMzQ1Njc4OWFiYyIsIm5ldCI6IndzIiwidGxzIjoidGxzIiwicGF0aCI6Ii92bWVzcyIsImhvc3QiOiJzZzIucHJveHktbm9kZS5uZXQiLCJwcyI6IlRMUy1WTWVzcy0wMSJ9
-vmess://eyJhZGQiOiIxOTguNTEuMTAwLjEwIiwicG9ydCI6ODAsImlkIjoiYTFiMmMzZDQtZTVmNi03YThiLTljMGQtMTIzNDU2Nzg5YWJjIiwibmV0Ijoid3MiLCJ0bHMiOiJub25lIiwicGF0aCI6Ii92bWVzcyIsImhvc3QiOiJudGxzMi5wcm94eS1ub2RlLm5ldCIsInBzIjoiTlTLSVZNZXNzLTAxIn0=
-trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:443?security=tls&type=ws&path=%2Ftrojan&sni=sg3.proxy-node.net#TLS-Trojan-01
-trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&type=ws&path=%2Ftrojan&host=ntls3.proxy-node.net#NTLS-Trojan-01`;
-
         function loadSampleMultiProtocol() {
             document.getElementById('inputLinks').value = sampleMultiProtocolText;
+            onInputLinksChange();
             switchTab('links');
-            showToast('Sample Campuran (TLS & Non-TLS) dimuat!');
+            showToast('Sample Campuran dimuat!');
         }
 
         function clearLinksInput() {
             document.getElementById('inputLinks').value = '';
             document.getElementById('outputJson').value = '';
+            onInputLinksChange();
             showToast('Input akun dibersihkan');
         }
 
@@ -346,18 +541,11 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
                     "protocol": "vless",
                     "settings": { "vnext": [{ "address": "198.51.100.10", "port": 443, "users": [{ "id": "a1b2c3d4-e5f6-7a8b-9c0d-123456789abc", "encryption": "none" }] }] },
                     "streamSettings": { "network": "ws", "security": "tls", "tlsSettings": { "serverName": "sg1.proxy-node.net" } }
-                },
-                {
-                    "tag": "NTLS-VLESS-01",
-                    "protocol": "vless",
-                    "settings": { "vnext": [{ "address": "198.51.100.10", "port": 80, "users": [{ "id": "a1b2c3d4-e5f6-7a8b-9c0d-123456789abc", "encryption": "none" }] }] },
-                    "streamSettings": { "network": "ws", "security": "none", "wsSettings": { "path": "/vless", "headers": { "Host": "ntls1.proxy-node.net" } } }
                 }
             ],
             "routing": {
                 "balancers": [
-                    { "tag": "auto-tls", "selector": ["TLS-"], "strategy": { "type": "leastLoad" } },
-                    { "tag": "auto-ntls", "selector": ["NTLS-"], "strategy": { "type": "leastLoad" } }
+                    { "tag": "auto-tls", "selector": ["TLS-"], "strategy": { "type": "leastLoad" } }
                 ],
                 "rules": [
                     { "type": "field", "network": "tcp,udp", "balancerTag": "auto-tls" }
@@ -469,11 +657,13 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
             const rawText = document.getElementById('inputLinks').value.trim();
             const probeURL = document.getElementById('optProbeURL').value.trim();
             const interval = document.getElementById('optInterval').value.trim();
+            const customPrefixInput = document.getElementById('optPrefix').value.trim();
             const socksPort = parseInt(document.getElementById('optSocksPort').value.trim()) || 10808;
             const httpPort = parseInt(document.getElementById('optHttpPort').value.trim()) || 10809;
 
             if (!rawText) {
                 document.getElementById('inputLinks').value = sampleMultiProtocolText;
+                onInputLinksChange();
                 processLinksToXray();
                 return;
             }
@@ -482,21 +672,29 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
             const outboundsList = [];
             const prefixesSet = new Set();
 
+            if (customPrefixInput) {
+                customPrefixInput.split(',').forEach(p => {
+                    if (p.trim()) prefixesSet.add(p.trim());
+                });
+            }
+
             lines.forEach(line => {
                 const parsed = parseProxyLink(line);
                 if (parsed) {
                     outboundsList.push(parsed);
-                    if (parsed.tag.startsWith('TLS-')) prefixesSet.add('TLS-');
-                    else if (parsed.tag.startsWith('NTLS-')) prefixesSet.add('NTLS-');
-                    else {
-                        const firstWord = parsed.tag.split('-')[0] + '-';
-                        prefixesSet.add(firstWord);
+                    if (!customPrefixInput) {
+                        if (parsed.tag.startsWith('TLS-')) prefixesSet.add('TLS-');
+                        else if (parsed.tag.startsWith('NTLS-')) prefixesSet.add('NTLS-');
+                        else {
+                            const firstWord = parsed.tag.split('-')[0] + '-';
+                            prefixesSet.add(firstWord);
+                        }
                     }
                 }
             });
 
             if (outboundsList.length === 0) {
-                document.getElementById('outputJson').value = "Error: Tidak ada link proxy valid yang ditemukan. Pastikan format vless://, vmess://, atau trojan:// benar.";
+                document.getElementById('outputJson').value = "Error: Tidak ada link proxy valid yang ditemukan.";
                 return;
             }
 
@@ -612,7 +810,6 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
             const rawInput = document.getElementById('inputJson').value.trim();
             const probeURL = document.getElementById('optProbeURL').value.trim();
             const interval = document.getElementById('optInterval').value.trim();
-            const socksPort = parseInt(document.getElementById('optSocksPort').value.trim()) || 10808;
 
             if (!rawInput) {
                 document.getElementById('inputJson').value = JSON.stringify(sampleJsonData, null, 2);
@@ -652,7 +849,29 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
             const outputText = document.getElementById('outputJson');
             outputText.select();
             document.execCommand('copy');
+            document.getElementById('copyText').textContent = 'Tersalin!';
+            setTimeout(() => { document.getElementById('copyText').textContent = 'Salin'; }, 2000);
             showToast('Berhasil disalin ke clipboard!');
+        }
+
+        function copyBase64Output() {
+            const content = document.getElementById('outputJson').value;
+            if (!content) {
+                showToast('Tidak ada data untuk disalin');
+                return;
+            }
+            try {
+                const b64 = btoa(unescape(encodeURIComponent(content)));
+                const dummy = document.createElement('textarea');
+                document.body.appendChild(dummy);
+                dummy.value = b64;
+                dummy.select();
+                document.execCommand('copy');
+                document.body.removeChild(dummy);
+                showToast('Berhasil menyalin format Base64!');
+            } catch (e) {
+                showToast('Gagal mengonversi ke Base64');
+            }
         }
 
         function downloadJson() {
@@ -684,8 +903,15 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
         }
 
         window.onload = function() {
-            loadSampleMultiProtocol();
+            loadSettingsFromLocalStorage();
+            if (!document.getElementById('inputLinks').value) {
+                loadSampleMultiProtocol();
+            } else {
+                onInputLinksChange();
+                processLinksToXray();
+            }
         };
     </script>
 </body>
 </html>
+```
