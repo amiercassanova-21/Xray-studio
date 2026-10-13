@@ -7,7 +7,7 @@
 [![Platform](https://img.shields.io/badge/Platform-Web%20Browser-blue?style=for-the-badge)]()
 [![License](https://img.shields.io/badge/License-MIT-amber?style=for-the-badge)]()
 
-*Platform utilitas profesional berbasis web untuk mengonversi, mengoptimalkan, dan mengintegrasikan multi-akun proxy (`VLESS`, `VMess`, dan `Trojan` dengan dukungan TLS & Non-TLS) ke dalam satu konfigurasi Xray JSON terpusat berbasis strategi **LoadBalancing** dan **BestPing** berkinerja tinggi.*
+*Platform utilitas profesional berbasis web untuk mengonversi, mengoptimalkan, dan mengintegrasikan multi-akun proxy (`VLESS`, `VMess`, dan `Trojan` dengan dukungan TLS & Non-TLS) ke dalam satu konfigurasi Xray JSON terpusat berbasis strategi **LoadBalancing** dan **BestPing** berkinerja tinggi.* https://xray-studio.cassanova.my.id
 
 </div>
 
