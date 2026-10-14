@@ -324,10 +324,16 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
         async function pasteFromClipboard() {
             try {
                 const text = await navigator.clipboard.readText();
-                if (text) {
-                    document.getElementById('inputLinks').value = text;
+                if (text && text.trim()) {
+                    const inputEl = document.getElementById('inputLinks');
+                    const existingText = inputEl.value.trim();
+                    if (existingText) {
+                        inputEl.value = existingText + '\n' + text.trim();
+                    } else {
+                        inputEl.value = text.trim();
+                    }
                     onInputLinksChange();
-                    showToast('Berhasil menempel dari clipboard!');
+                    showToast('Berhasil menempel & menggabungkan akun!');
                 } else {
                     showToast('Clipboard kosong');
                 }
@@ -478,9 +484,16 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
                 const file = files[0];
                 const reader = new FileReader();
                 reader.onload = function(evt) {
-                    document.getElementById('inputLinks').value = evt.target.result;
+                    const inputEl = document.getElementById('inputLinks');
+                    const existingText = inputEl.value.trim();
+                    const newText = evt.target.result.trim();
+                    if (existingText) {
+                        inputEl.value = existingText + '\n' + newText;
+                    } else {
+                        inputEl.value = newText;
+                    }
                     onInputLinksChange();
-                    showToast(`File ${file.name} berhasil dimuat!`);
+                    showToast(`File ${file.name} berhasil dimuat & digabungkan!`);
                 };
                 reader.readAsText(file);
             }
