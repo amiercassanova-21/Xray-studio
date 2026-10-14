@@ -158,7 +158,7 @@
                 </div>
             </div>
 
-            <!-- Advanced Settings Accordion (Termasuk Mass Override & Direct Preset) -->
+            <!-- Advanced Settings Accordion (Termasuk Mass Override & AdBlock Mullvad DNS) -->
             <div class="card-3d rounded-2xl p-3 flex flex-col gap-2">
                 <button onclick="toggleAdvancedSettings()" class="flex items-center justify-between w-full text-xs font-bold uppercase tracking-wider text-amber-400 focus:outline-none">
                     <span class="flex items-center gap-1.5"><i class="fa-solid fa-gear"></i> Pengaturan Lanjutan (Opsional)</span>
@@ -183,11 +183,11 @@
                         </div>
                     </div>
 
-                    <!-- Direct Preset Rules -->
+                    <!-- AdBlock & Mullvad DNS Preset -->
                     <div class="flex items-center gap-3 pt-1">
-                        <label class="flex items-center gap-1.5 text-slate-300 cursor-pointer select-none">
-                            <input type="checkbox" id="chkDirectIndo" class="accent-amber-500 rounded" onchange="saveSettingsToLocalStorage(); triggerAutoProcess();" checked>
-                            <span>Direct IP/Domain Indo (.id)</span>
+                        <label class="flex items-center gap-2 text-slate-300 cursor-pointer select-none">
+                            <input type="checkbox" id="chkAdBlock" class="accent-amber-500 rounded" onchange="saveSettingsToLocalStorage(); triggerAutoProcess();" checked>
+                            <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-amber-400"></i> Blokir Iklan (Mullvad AdBlock DNS)</span>
                         </label>
                     </div>
 
@@ -244,22 +244,11 @@
 
                     <!-- Drag and Drop Dropzone -->
                     <div id="dropZone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)" class="relative border-2 border-dashed border-slate-800 rounded-xl p-1 transition">
-                        <textarea id="inputLinks" placeholder="Tempel link (vless://, vmess://, trojan://) atau seret file .txt / .json ke sini..." class="w-full h-24 bg-slate-950 rounded-lg p-2 text-xs code-font text-slate-300 focus:outline-none resize-none" oninput="onInputLinksChange()"></textarea>
+                        <textarea id="inputLinks" placeholder="Tempel link (vless://, vmess://, trojan://) atau seret file .txt / .json ke sini..." class="w-full h-36 bg-slate-950 rounded-lg p-2.5 text-xs code-font text-slate-300 focus:outline-none resize-none" oninput="onInputLinksChange()"></textarea>
                         <div class="absolute bottom-1 right-2 text-[8px] text-slate-500 pointer-events-none"><i class="fa-solid fa-file-arrow-down"></i> Drop file didukung</div>
                     </div>
-
-                    <!-- Interactive Account List & Rename Per Account (Sesuai Gambar Referensi) -->
-                    <div id="accountListContainer" class="hidden flex flex-col gap-1.5 bg-slate-950/90 border border-slate-800 rounded-xl p-2.5 max-h-48 overflow-y-auto">
-                        <div class="flex items-center justify-between text-[10px] text-amber-400 font-bold uppercase tracking-wider pb-1 border-b border-slate-800">
-                            <span>Centang & Ubah Nama Akun Terpilih:</span>
-                            <span id="selectedCountBadge" class="text-slate-400 font-normal">0 terpilih</span>
-                        </div>
-                        <div id="accountListItems" class="flex flex-col gap-1.5">
-                            <!-- Items injected dynamically -->
-                        </div>
-                    </div>
                     
-                    <button id="btnGenerate" onclick="processLinksToXray()" class="btn-3d-gold w-full text-white font-bold py-2 px-4 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-xs uppercase tracking-wide">
+                    <button id="btnGenerate" onclick="processLinksToXray()" class="btn-3d-gold w-full text-white font-bold py-2.5 px-4 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-xs uppercase tracking-wide mt-1">
                         <i class="fa-solid fa-bolt"></i> Generate Xray JSON
                     </button>
                 </div>
@@ -277,9 +266,9 @@
                             <button onclick="clearJsonInput()" class="text-slate-400 hover:text-red-400 transition">Bersihkan</button>
                         </div>
                     </div>
-                    <textarea id="inputJson" placeholder="Tempel JSON Xray lengkap di sini..." class="w-full h-24 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs code-font text-slate-300 focus:outline-none focus:border-amber-500 resize-none" oninput="validateJsonInput()"></textarea>
+                    <textarea id="inputJson" placeholder="Tempel JSON Xray lengkap di sini..." class="w-full h-36 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs code-font text-slate-300 focus:outline-none focus:border-amber-500 resize-none" oninput="validateJsonInput()"></textarea>
                     
-                    <button onclick="processJsonConversion()" class="btn-3d-gold w-full text-white font-bold py-2 px-4 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-xs uppercase tracking-wide">
+                    <button onclick="processJsonConversion()" class="btn-3d-gold w-full text-white font-bold py-2.5 px-4 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-xs uppercase tracking-wide mt-1">
                         <i class="fa-solid fa-shuffle"></i> Konversi & Optimasi JSON
                     </button>
                 </div>
@@ -415,7 +404,7 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
                 remarks: document.getElementById('optRemarks').value,
                 overrideAddr: document.getElementById('optOverrideAddr').value,
                 overrideHost: document.getElementById('optOverrideHost').value,
-                directIndo: document.getElementById('chkDirectIndo').checked,
+                adBlock: document.getElementById('chkAdBlock').checked,
                 probeURL: document.getElementById('optProbeURL').value,
                 prefix: document.getElementById('optPrefix').value,
                 interval: document.getElementById('optInterval').value,
@@ -435,7 +424,7 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
                     if (s.remarks) document.getElementById('optRemarks').value = s.remarks;
                     if (s.overrideAddr !== undefined) document.getElementById('optOverrideAddr').value = s.overrideAddr;
                     if (s.overrideHost !== undefined) document.getElementById('optOverrideHost').value = s.overrideHost;
-                    if (s.directIndo !== undefined) document.getElementById('chkDirectIndo').checked = s.directIndo;
+                    if (s.adBlock !== undefined) document.getElementById('chkAdBlock').checked = s.adBlock;
                     if (s.probeURL) document.getElementById('optProbeURL').value = s.probeURL;
                     if (s.prefix) document.getElementById('optPrefix').value = s.prefix;
                     if (s.interval) document.getElementById('optInterval').value = s.interval;
@@ -563,15 +552,7 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
                     const isTls = v.tls === 'tls' || v.port == 443;
                     const tag = v.ps || `${isTls ? 'TLS' : 'NTLS'}-VMESS-${idx + 1}`;
                     
-                    return {
-                        id: idx,
-                        enabled: true,
-                        tag: tag,
-                        protocol: 'vmess',
-                        rawLine: line,
-                        vObj: v,
-                        isTls: isTls
-                    };
+                    return { id: idx, enabled: true, tag: tag, protocol: 'vmess', rawLine: line, vObj: v, isTls: isTls };
                 }
 
                 if (line.startsWith('vless://')) {
@@ -581,15 +562,7 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
                     const security = params.get('security') || (port === 443 ? 'tls' : 'none');
                     const tag = decodeURIComponent(urlObj.hash.replace('#', '')) || `${security === 'tls' ? 'TLS' : 'NTLS'}-VLESS-${idx + 1}`;
                     
-                    return {
-                        id: idx,
-                        enabled: true,
-                        tag: tag,
-                        protocol: 'vless',
-                        rawLine: line,
-                        urlObj: urlObj,
-                        security: security
-                    };
+                    return { id: idx, enabled: true, tag: tag, protocol: 'vless', rawLine: line, urlObj: urlObj, security: security };
                 }
 
                 if (line.startsWith('trojan://')) {
@@ -599,15 +572,7 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
                     const security = params.get('security') || (port === 443 ? 'tls' : 'none');
                     const tag = decodeURIComponent(urlObj.hash.replace('#', '')) || `${security === 'tls' ? 'TLS' : 'NTLS'}-Trojan-${idx + 1}`;
                     
-                    return {
-                        id: idx,
-                        enabled: true,
-                        tag: tag,
-                        protocol: 'trojan',
-                        rawLine: line,
-                        urlObj: urlObj,
-                        security: security
-                    };
+                    return { id: idx, enabled: true, tag: tag, protocol: 'trojan', rawLine: line, urlObj: urlObj, security: security };
                 }
             } catch (err) {
                 console.error("Parse error:", err);
@@ -636,62 +601,12 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
             });
 
             document.getElementById('parserBadge').textContent = `${vlessCount} VLESS, ${vmessCount} VMess, ${trojanCount} Trojan`;
-            renderInteractiveAccountList();
 
             const btnGen = document.getElementById('btnGenerate');
             if (parsedNodesList.length > 0) {
                 btnGen.classList.add('ring-2', 'ring-amber-400', 'animate-pulse');
             } else {
                 btnGen.classList.remove('ring-2', 'ring-amber-400', 'animate-pulse');
-            }
-        }
-
-        function renderInteractiveAccountList() {
-            const container = document.getElementById('accountListContainer');
-            const itemsEl = document.getElementById('accountListItems');
-            const badge = document.getElementById('selectedCountBadge');
-
-            if (parsedNodesList.length === 0) {
-                container.classList.add('hidden');
-                return;
-            }
-
-            container.classList.remove('hidden');
-            itemsEl.innerHTML = '';
-
-            let enabledCount = 0;
-            parsedNodesList.forEach((node, idx) => {
-                if (node.enabled) enabledCount++;
-                const itemDiv = document.createElement('div');
-                itemDiv.className = 'flex items-center gap-2 bg-slate-900/90 border border-slate-800 p-1.5 rounded-lg text-xs';
-                
-                itemDiv.innerHTML = `
-                    <input type="checkbox" ${node.enabled ? 'checked' : ''} onchange="toggleNodeItem(${idx}, this.checked)" class="accent-amber-500 rounded cursor-pointer w-4 h-4">
-                    <span class="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded ${
-                        node.protocol === 'vless' ? 'bg-sky-500/20 text-sky-400 border border-sky-500/30' :
-                        node.protocol === 'vmess' ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30' :
-                        'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                    }">${node.protocol}</span>
-                    <input type="text" value="${node.tag}" oninput="updateNodeTagName(${idx}, this.value)" class="flex-1 bg-slate-950 border border-slate-800 rounded px-2 py-1 text-slate-200 code-font focus:outline-none focus:border-amber-500 text-xs">
-                `;
-                itemsEl.appendChild(itemDiv);
-            });
-
-            badge.textContent = `${enabledCount} / ${parsedNodesList.length} aktif`;
-        }
-
-        function toggleNodeItem(idx, isChecked) {
-            if (parsedNodesList[idx]) {
-                parsedNodesList[idx].enabled = isChecked;
-                renderInteractiveAccountList();
-                processLinksToXray();
-            }
-        }
-
-        function updateNodeTagName(idx, newName) {
-            if (parsedNodesList[idx]) {
-                parsedNodesList[idx].tag = newName.trim() || `NODE-${idx + 1}`;
-                processLinksToXray();
             }
         }
 
@@ -782,7 +697,7 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
             const remarksName = document.getElementById('optRemarks').value.trim() || "Cassanova Studio Config";
             const overrideAddr = document.getElementById('optOverrideAddr').value.trim();
             const overrideHost = document.getElementById('optOverrideHost').value.trim();
-            const directIndo = document.getElementById('chkDirectIndo').checked;
+            const isAdBlockActive = document.getElementById('chkAdBlock').checked;
             const probeURL = document.getElementById('optProbeURL').value.trim();
             const interval = document.getElementById('optInterval').value.trim();
             const customPrefixInput = document.getElementById('optPrefix').value.trim();
@@ -926,18 +841,27 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
                 }
             });
 
-            const rules = [
-                { "type": "field", "inboundTag": ["socks-in", "http-in"], "port": 53, "outboundTag": "dns-out" },
-                { "type": "field", "domain": ["geosite:category-ads-all"], "outboundTag": "block" },
-                { "type": "field", "ip": ["geoip:private"], "outboundTag": "direct" }
+            const dnsServers = [
+                { "address": "1.1.1.1", "port": 53 },
+                { "address": "8.8.8.8", "port": 53 }
             ];
 
-            if (directIndo) {
-                rules.push({ "type": "field", "domain": ["geosite:id", "domain:.id"], "outboundTag": "direct" });
-                rules.push({ "type": "field", "ip": ["geoip:id"], "outboundTag": "direct" });
+            if (isAdBlockActive) {
+                dnsServers.unshift({ "address": "https://adblock.dns.mullvad.net/dns-query" });
             }
 
-            rules.push({ "type": "field", "network": "tcp,udp", "balancerTag": balancers[0].tag });
+            const rules = [
+                { "type": "field", "inboundTag": ["socks-in", "http-in"], "port": 53, "outboundTag": "dns-out" }
+            ];
+
+            if (isAdBlockActive) {
+                rules.push({ "type": "field", "domain": ["geosite:category-ads-all"], "outboundTag": "block" });
+            }
+
+            rules.push(
+                { "type": "field", "ip": ["geoip:private"], "outboundTag": "direct" },
+                { "type": "field", "network": "tcp,udp", "balancerTag": balancers[0].tag }
+            );
 
             outboundsList.push(
                 { "tag": "direct", "protocol": "freedom", "settings": { "domainStrategy": "UseIPv4" } },
@@ -948,10 +872,7 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
             const xrayConfig = {
                 "log": { "loglevel": "warning" },
                 "dns": {
-                    "servers": [
-                        { "address": "1.1.1.1", "port": 53 },
-                        { "address": "8.8.8.8", "port": 53 }
-                    ],
+                    "servers": dnsServers,
                     "queryStrategy": "UseIPv4",
                     "disableCache": false,
                     "tag": "dns-in"
