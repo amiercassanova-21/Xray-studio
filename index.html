@@ -24,7 +24,7 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts Inter & JetBrains Mono -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #0b0f19; }
         .code-font { font-family: 'JetBrains Mono', monospace; }
@@ -183,24 +183,28 @@
                         </div>
                     </div>
 
-                    <!-- Enhanced DNS Selection & AdBlock Presets -->
+                    <!-- Expanded DNS Selection & AdBlock Presets -->
                     <div>
                         <label class="block text-slate-400 mb-1 font-medium flex items-center justify-between">
-                            <span><i class="fa-solid fa-shield-halved text-amber-400 mr-1"></i>Pilihan DNS & Anti-Iklan (AdBlock)</span>
-                            <span class="text-[9px] text-amber-400 font-bold bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/30">Rekomendasi</span>
+                            <span><i class="fa-solid fa-shield-halved text-amber-400 mr-1"></i>Pilihan DNS & Anti-Iklan Terlengkap</span>
+                            <span class="text-[9px] text-amber-400 font-bold bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/30">Fitur Lengkap</span>
                         </label>
                         <select id="optDnsPreset" onchange="updateDnsDescription(); saveSettingsToLocalStorage(); triggerAutoProcess();" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-1.5 text-amber-300 code-font focus:outline-none focus:border-amber-500 text-xs font-semibold">
-                            <option value="mullvad" selected>🛡️ Mullvad AdBlock (Rekomendasi Utama Anti-Iklan & Cepat)</option>
-                            <option value="adguard">🛡️ AdGuard DNS (Paling Ampuh Blokir Pop-Up & Tracking)</option>
-                            <option value="controld">⚡ ControlD DNS (Super Cepat, Optimal Streaming & Anti-Iklan)</option>
-                            <option value="cloudflare">🚀 Cloudflare + Google (Kecepatan Maksimal & Paling Stabil)</option>
+                            <option value="mullvad" selected>🛡️ Mullvad AdBlock (Anti-Iklan, Malware & Bebas Log)</option>
+                            <option value="adguard">🛡️ AdGuard DNS (Paling Ampuh Blokir Pop-Up & Tracker)</option>
+                            <option value="controld">⚡ ControlD DNS (Super Cepat, Streaming & Anti-Iklan)</option>
+                            <option value="nextdns">🚀 NextDNS Public (Proteksi Lanjutan & Filter Telemetri)</option>
+                            <option value="cloudflare">🌐 Cloudflare 1.1.1.1 (Kecepatan Maksimal & Paling Stabil)</option>
+                            <option value="google">🌍 Google Public DNS (8.8.8.8 / 8.8.4.4 - Kompatibilitas Global)</option>
                             <option value="quad9">🔒 Quad9 Security (Proteksi Phishing, Malware & Virus)</option>
+                            <option value="opendns">🏛️ Cisco OpenDNS (Andal, Uptime 100% & Aman)</option>
+                            <option value="cleanbrowsing">🛡️ CleanBrowsing (Proteksi Khusus Phishing & Scam)</option>
                         </select>
                         
-                        <!-- Dynamic Recommendation Box -->
+                        <!-- Dynamic Recommendation Box with IP / URL & Advantages -->
                         <div id="dnsDescBox" class="mt-1.5 p-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-[11px] text-amber-200/90 leading-relaxed flex items-start gap-1.5">
                             <i class="fa-solid fa-circle-info text-amber-400 mt-0.5 flex-shrink-0"></i>
-                            <span id="dnsDescText"><b>Rekomendasi Utama:</b> Respon super cepat, tanpa log privasi, ampuh memblokir iklan & tracker tanpa bikin lemot.</span>
+                            <span id="dnsDescText">Loading detail DNS...</span>
                         </div>
                     </div>
 
@@ -364,15 +368,23 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
             const preset = document.getElementById('optDnsPreset').value;
             const descText = document.getElementById('dnsDescText');
             if (preset === 'mullvad') {
-                descText.innerHTML = '<b>Rekomendasi Utama:</b> Respon super cepat, tanpa log privasi, ampuh memblokir iklan & tracker tanpa bikin lemot.';
+                descText.innerHTML = '<b>🌐 IP / URL:</b> <code class="text-amber-300">https://adblock.dns.mullvad.net/dns-query</code> (Fallback: 194.242.2.3, 1.1.1.1, 8.8.8.8)<br><b>⚡ Keunggulan:</b> Respon super cepat, tanpa log privasi, ampuh memblokir iklan, malware & tracker tanpa buffering.';
             } else if (preset === 'adguard') {
-                descText.innerHTML = '<b>Terbaik untuk Privasi & Anti-PopUp:</b> Paling ampuh menyaring iklan banner, video ads, serta script pelacak web.';
+                descText.innerHTML = '<b>🌐 IP / URL:</b> <code class="text-amber-300">https://dns.adguard-dns.com/dns-query</code> (Fallback: 94.140.14.14, 1.1.1.1, 8.8.8.8)<br><b>⚡ Keunggulan:</b> Paling efektif menyaring iklan banner, video ads, pop-up, serta script pelacak web.';
             } else if (preset === 'controld') {
-                descText.innerHTML = '<b>Terbaik untuk Streaming & Performa:</b> Latensi sangat rendah, optimal untuk YouTube/TikTok bebas iklan dengan koneksi stabil.';
+                descText.innerHTML = '<b>🌐 IP / URL:</b> <code class="text-amber-300">https://p2.freedns.controld.com/dns-query</code> (Fallback: 76.76.2.11, 1.1.1.1, 8.8.8.8)<br><b>⚡ Keunggulan:</b> Latensi sangat rendah, optimal untuk YouTube, TikTok & media streaming bebas iklan dengan koneksi stabil.';
+            } else if (preset === 'nextdns') {
+                descText.innerHTML = '<b>🌐 IP / URL:</b> <code class="text-amber-300">https://dns.nextdns.io/dns-query</code> (Fallback: 45.90.28.0, 1.1.1.1)<br><b>⚡ Keunggulan:</b> Memblokir iklan in-app, telemetri OS, spyware, dan proteksi jaringan modern berkinerja tinggi.';
             } else if (preset === 'cloudflare') {
-                descText.innerHTML = '<b>Terbaik untuk Kecepatan & Stabilitas:</b> DNS publik tercepat di dunia (1.1.1.1), sangat direkomendasikan untuk Gaming & Download.';
+                descText.innerHTML = '<b>🌐 IP / URL:</b> <code class="text-amber-300">1.1.1.1</code> & <code class="text-amber-300">1.0.0.1</code> (Fallback: 8.8.8.8)<br><b>⚡ Keunggulan:</b> DNS publik tercepat di dunia, sangat direkomendasikan untuk Gaming Online, Video Call & Download cepat.';
+            } else if (preset === 'google') {
+                descText.innerHTML = '<b>🌐 IP / URL:</b> <code class="text-amber-300">8.8.8.8</code> & <code class="text-amber-300">8.8.4.4</code> (Fallback: 1.1.1.1)<br><b>⚡ Keunggulan:</b> Resolusi domain paling stabil dan akurat secara global, sangat kompatibel dengan seluruh CDN & Web Apps.';
             } else if (preset === 'quad9') {
-                descText.innerHTML = '<b>Terbaik untuk Keamanan & Malware:</b> Memblokir domain berbahaya, phishing, virus, dan serangan siber secara otomatis.';
+                descText.innerHTML = '<b>🌐 IP / URL:</b> <code class="text-amber-300">https://dns.quad9.net/dns-query</code> (IP: 9.9.9.9, 149.112.112.112)<br><b>⚡ Keunggulan:</b> Fokus keamanan siber, otomatis memblokir domain phishing, malware, virus & botnet berbahaya.';
+            } else if (preset === 'opendns') {
+                descText.innerHTML = '<b>🌐 IP / URL:</b> <code class="text-amber-300">208.67.222.222</code> & <code class="text-amber-300">208.67.220.220</code><br><b>⚡ Keunggulan:</b> Rekam jejak keandalan tinggi (uptime 100%), proteksi phishing cerdas & jaringan Cisco global.';
+            } else if (preset === 'cleanbrowsing') {
+                descText.innerHTML = '<b>🌐 IP / URL:</b> <code class="text-amber-300">https://doh.cleanbrowsing.org/doh/security-filter/</code> (IP: 185.228.168.9)<br><b>⚡ Keunggulan:</b> Filter proteksi khusus untuk mengamankan koneksi dari website penipuan, scam, dan ancaman siber.';
             }
         }
 
@@ -897,6 +909,7 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
             if (dnsPreset === 'mullvad') {
                 dnsServers = [
                     { "address": "https://adblock.dns.mullvad.net/dns-query" },
+                    { "address": "194.242.2.3", "port": 53 },
                     { "address": "1.1.1.1", "port": 53 },
                     { "address": "8.8.8.8", "port": 53 }
                 ];
@@ -904,6 +917,7 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
             } else if (dnsPreset === 'adguard') {
                 dnsServers = [
                     { "address": "https://dns.adguard-dns.com/dns-query" },
+                    { "address": "94.140.14.14", "port": 53 },
                     { "address": "1.1.1.1", "port": 53 },
                     { "address": "8.8.8.8", "port": 53 }
                 ];
@@ -911,20 +925,51 @@ trojan://a1b2c3d4-e5f6-7a8b-9c0d-123456789abc@198.51.100.10:80?security=none&typ
             } else if (dnsPreset === 'controld') {
                 dnsServers = [
                     { "address": "https://p2.freedns.controld.com/dns-query" },
+                    { "address": "76.76.2.11", "port": 53 },
                     { "address": "1.1.1.1", "port": 53 },
                     { "address": "8.8.8.8", "port": 53 }
                 ];
                 isAdBlockActive = true;
+            } else if (dnsPreset === 'nextdns') {
+                dnsServers = [
+                    { "address": "https://dns.nextdns.io/dns-query" },
+                    { "address": "45.90.28.0", "port": 53 },
+                    { "address": "1.1.1.1", "port": 53 }
+                ];
+                isAdBlockActive = true;
+            } else if (dnsPreset === 'cloudflare') {
+                dnsServers = [
+                    { "address": "1.1.1.1", "port": 53 },
+                    { "address": "1.0.0.1", "port": 53 },
+                    { "address": "8.8.8.8", "port": 53 }
+                ];
+                isAdBlockActive = false;
+            } else if (dnsPreset === 'google') {
+                dnsServers = [
+                    { "address": "8.8.8.8", "port": 53 },
+                    { "address": "8.8.4.4", "port": 53 },
+                    { "address": "1.1.1.1", "port": 53 }
+                ];
+                isAdBlockActive = false;
             } else if (dnsPreset === 'quad9') {
                 dnsServers = [
+                    { "address": "https://dns.quad9.net/dns-query" },
                     { "address": "9.9.9.9", "port": 53 },
                     { "address": "149.112.112.112", "port": 53 }
                 ];
                 isAdBlockActive = false;
-            } else { // cloudflare default
+            } else if (dnsPreset === 'opendns') {
                 dnsServers = [
-                    { "address": "1.1.1.1", "port": 53 },
-                    { "address": "8.8.8.8", "port": 53 }
+                    { "address": "208.67.222.222", "port": 53 },
+                    { "address": "208.67.220.220", "port": 53 },
+                    { "address": "1.1.1.1", "port": 53 }
+                ];
+                isAdBlockActive = false;
+            } else if (dnsPreset === 'cleanbrowsing') {
+                dnsServers = [
+                    { "address": "https://doh.cleanbrowsing.org/doh/security-filter/" },
+                    { "address": "185.228.168.9", "port": 53 },
+                    { "address": "185.228.169.9", "port": 53 }
                 ];
                 isAdBlockActive = false;
             }
